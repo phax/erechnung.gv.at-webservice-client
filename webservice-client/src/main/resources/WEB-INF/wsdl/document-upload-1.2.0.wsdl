@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" 
+             xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
+             xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" 
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:uploadstatus="http://www.brz.gv.at/schema/eproc/invoice-uploadstatus-1.0.0/"
+             xmlns:tns="http://erb.eproc.brz.gv.at/ws/documentupload/20121205/" 
+             targetNamespace="http://erb.eproc.brz.gv.at/ws/documentupload/20121205/" 
+             name="WSDocumentUploadService">
+  <documentation>
+    Defines the operations for uploading an invoice to ER>B
+    Author: Philip Helger
+    Version: 1.2.0
+    Last Update: 2013-12-10
+    
+    History: 
+      1.2.0: All changes compared to 1.1.0 are marked with [CHANGE120]
+      1.1.0: All changes compared to 1.0.0 are marked with [CHANGE110]
+             Global changes: 
+               using elementFormDefault=qualified
+      1.0.0: Initial version       
+                        
+  </documentation>           
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.brz.gv.at/schema/eproc/invoice-uploadstatus-1.0.0/" 
+                  schemaLocation="invoice-uploadstatus-1.0.0.xsd" />
+    </xsd:schema>
+    <xsd:schema xmlns:tns="http://erb.eproc.brz.gv.at/ws/documentupload/20121205/" 
+                targetNamespace="http://erb.eproc.brz.gv.at/ws/documentupload/20121205/"
+                version="1.0"
+                elementFormDefault="qualified">
+      <xsd:import namespace="http://www.brz.gv.at/schema/eproc/invoice-uploadstatus-1.0.0/" 
+                  schemaLocation="invoice-uploadstatus-1.0.0.xsd" />
+      <xsd:element name="UploadException" type="tns:ExceptionType" />
+      <xsd:element name="uploadDocument" type="tns:UploadDocumentType" />
+      <xsd:element name="uploadDocumentResponse" type="tns:UploadDocumentResponseType" />
+      
+      <xsd:simpleType name="NonEmptyStringType">
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      
+      <xsd:complexType name="AttachmentType">
+        <xsd:choice>
+          <xsd:annotation>
+            <xsd:documentation>
+              An attachment is either represented as an inline content, or  
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:element name="Content" type="xsd:base64Binary">
+            <xsd:annotation>
+              <xsd:documentation>The main content of the attachment</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <!-- Note: external references are postponed for a later version -->
+        </xsd:choice>
+        <xsd:attribute name="id" type="tns:NonEmptyStringType" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>The optional internal ID of this attachment</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="name" type="tns:NonEmptyStringType" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The (file)name of this attachment</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="mimeType" type="tns:NonEmptyStringType" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>The optional MIME type of this attachment</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:complexType>
+      
+      <xsd:complexType name="SettingsType">
+        <xsd:sequence>
+          <xsd:element name="ResponseServiceURL" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>
+                Optional URL of a WebService that should be invoked to send the message status.
+                If no such URL is present, or if the URL is not reachable, an email is sent
+                containing the status information.
+                The WSDL service description of the response URL is located in the file
+                document-upload-response-x.y.z.wsdl
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <!-- [CHANGE110] -->
+        <xsd:attribute name="test" type="xsd:boolean" default="false" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>If this flag is set to true, the upload is considered a test-upload and will not be processed!</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:complexType>
+      
+      <!-- [CHANGE120] add, so that the encoding attribute can be added -->
+      <xsd:complexType name="DocumentType">
+        <xsd:simpleContent>
+          <xsd:extension base="xsd:base64Binary">
+            <xsd:attribute name="encoding" type="xsd:string" default="UTF-8" use="optional">
+              <xsd:annotation>
+                <xsd:documentation>Set the original encoding of the Base64 binary encoded document. Default is UTF-8.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+          </xsd:extension>
+        </xsd:simpleContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="UploadDocumentType">
+        <xsd:sequence>
+          <xsd:element name="Document" type="tns:DocumentType">
+            <xsd:annotation>
+              <xsd:documentation>The structure invoice document to be delivered</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="Attachment" type="tns:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:documentation>The optional list of attachments to be delivered together with the invoice</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="Settings" type="tns:SettingsType" />
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="UploadDocumentResponseType">
+        <xsd:sequence>
+          <xsd:element name="return" type="uploadstatus:TypeUploadStatus" />
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="ExceptionType">
+        <xsd:sequence>
+          <xsd:element name="message" type="xsd:string" minOccurs="0" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="uploadDocument">
+    <part name="parameters" element="tns:uploadDocument" />
+  </message>
+  <message name="uploadDocumentResponse">
+    <part name="parameters" element="tns:uploadDocumentResponse" />
+  </message>
+  <message name="UploadException">
+    <part name="fault" element="tns:UploadException" />
+  </message>
+  <portType name="wsupload">
+    <operation name="uploadDocument">
+      <input wsam:Action="http://erb.eproc.brz.gv.at/ws/documentupload/20121205/wsupload/uploadDocumentRequest" 
+             message="tns:uploadDocument" />
+      <output wsam:Action="http://erb.eproc.brz.gv.at/ws/documentupload/20121205/wsupload/uploadDocumentResponse" 
+              message="tns:uploadDocumentResponse" />
+      <fault wsam:Action="http://erb.eproc.brz.gv.at/ws/documentupload/20121205/wsupload/uploadDocument/Fault/UploadException"
+             message="tns:UploadException" 
+             name="UploadException" />
+    </operation>
+  </portType>
+  <binding name="WSDocumentUploadPortBinding" type="tns:wsupload">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <operation name="uploadDocument">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="UploadException">
+        <soap:fault name="UploadException" use="literal" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="WSDocumentUploadService">
+    <port name="WSDocumentUploadPort" binding="tns:WSDocumentUploadPortBinding">
+      <soap:address location="https://txm.portal.at/at.gv.bmf.erb/V1" />
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.brz.gv.at/schema/eproc/invoice-uploadstatus-1.0.0/" 
+           targetNamespace="http://www.brz.gv.at/schema/eproc/invoice-uploadstatus-1.0.0/" 
+           elementFormDefault="qualified" 
+           attributeFormDefault="qualified">
+  <xs:annotation>
+    <xs:documentation>
+        schema version: ER&gt;B WebService Upload Status 1.0.0
+           last update: 2012-03-07
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:simpleType name="TypeSupplierID">
+    <xs:annotation>
+      <xs:documentation>Definiert eine Lieferanten ID.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="10" />
+      <xs:maxLength value="10" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TypeAccountingArea">
+    <xs:annotation>
+      <xs:documentation>Definiert einen Buchungskreis.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="4" />
+      <xs:maxLength value="4" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TypeBuyerGroup">
+    <xs:annotation>
+      <xs:documentation>Definiert eine Einkäufergruppe.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="3" />
+      <xs:maxLength value="3" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="TypePrintableInvoice">
+    <xs:simpleContent>
+      <xs:extension base="xs:base64Binary">
+        <xs:attribute name="type" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- The type of the root element -->
+  <xs:complexType name="TypeSuccess">
+    <xs:sequence>
+      <xs:element name="DocumentID" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Die eindeutige Dokumenten-ID auf die sich dieser Status bezieht.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SupplierID" type="TypeSupplierID">
+        <xs:annotation>
+          <xs:documentation>Die Lieferanten-ID wie in der Rechnung spezifiziert</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SupplierEmail" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Die Email-Adresse des Lieferanten wie in der Rechnung spezifiziert</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SupplierInvoiceNumber" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Die Rechnungsnummer wie in der Rechnung angegeben</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AccountingArea" type="TypeAccountingArea" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Der Buchungskreis wie in der Rechnung angegeben</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="BuyerGroup" type="TypeBuyerGroup" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Die Einkäufergruppe wie in der Rechnung angegeben</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PrintableInvoice" type="TypePrintableInvoice">
+        <xs:annotation>
+          <xs:documentation>Enthält die Rechnung als druckbares Dokument (z.B. als PDF).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TypeErrorDetail">
+    <xs:annotation>
+      <xs:documentation>Definiert alle Felder eines einzelnen Detail Eintrags</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Field" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Das Feld das den Fehler enthält.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Message" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Der Fehlertext</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TypeErrorDetails">
+    <xs:annotation>
+      <xs:documentation>Die Fehlerdetails zum Status.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element name="ErrorDetail" type="TypeErrorDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="TypeError">
+    <xs:sequence>
+      <xs:element name="ErrorDetails" type="TypeErrorDetails" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="TypeUploadStatus">
+    <xs:choice>
+      <xs:element name="Success" type="TypeSuccess" />
+      <xs:element name="Error" type="TypeError" />
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:element name="UploadStatus" type="TypeUploadStatus" />
+</xs:schema>
