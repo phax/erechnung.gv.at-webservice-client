@@ -48,6 +48,8 @@ import com.sun.xml.ws.developer.JAXWSProperties;
 
 /**
  * A wrapper for invoking the Webservice 1.2 for ER>B - E-Rechnung an den Bund.
+ * The technical details can be found at
+ * https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws12
  * 
  * @author Philip Helger
  */
