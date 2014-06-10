@@ -22,27 +22,36 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.handler.Handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import com.helger.erechnung.erb.handler.SOAPAddWSSEHeaderHandler;
 import com.phloc.commons.ValueEnforcer;
 import com.phloc.commons.annotations.Nonempty;
 import com.phloc.commons.charset.CCharset;
 import com.phloc.commons.charset.CharsetManager;
+import com.phloc.commons.random.VerySecureRandom;
 import com.phloc.commons.xml.serialize.XMLWriter;
 import com.phloc.commons.xml.serialize.XMLWriterSettings;
+import com.phloc.web.https.DoNothingTrustManager;
+import com.phloc.web.https.HostnameVerifierAlwaysTrue;
+import com.sun.xml.ws.developer.JAXWSProperties;
 
 /**
  * A wrapper for invoking the Webservice 1.2 for ER>B - E-Rechnung an den Bund.
  * 
  * @author Philip Helger
  */
+@NotThreadSafe
 public class WS120Sender
 {
   public static final String ENDPOINT_URL_PRODUCTION = "https://txm.portal.at/at.gv.bmf.erb/V1";
@@ -51,8 +60,9 @@ public class WS120Sender
   // Default encoding according to XSD
   public static final Charset DEFAULT_INVOICE_ENCODING = CCharset.CHARSET_UTF_8_OBJ;
   public static final boolean DEFAULT_DEBUG = false;
-  public static final boolean DEFAULT_TEST_FLAG = false;
   public static final boolean DEFAULT_TEST_VERSION = false;
+  public static final boolean DEFAULT_TRUST_ALL_CERTIFICATES = false;
+  public static final boolean DEFAULT_TRUST_ALL_HOSTNAMES = false;
 
   // Logger to use
   private static final Logger s_aLogger = LoggerFactory.getLogger (WS120Sender.class);
@@ -62,6 +72,8 @@ public class WS120Sender
   private Charset m_aInvoiceEncoding = DEFAULT_INVOICE_ENCODING;
   private boolean m_bDebugMode = DEFAULT_DEBUG;
   private boolean m_bTestVersion = DEFAULT_TEST_VERSION;
+  private boolean m_bTrustAllCertificates = DEFAULT_TRUST_ALL_CERTIFICATES;
+  private boolean m_bTrustAllHostnames = DEFAULT_TRUST_ALL_HOSTNAMES;
 
   public WS120Sender (@Nonnull @Nonempty final String sWebserviceUsername,
                       @Nonnull @Nonempty final String sWebservicePassword)
@@ -171,6 +183,74 @@ public class WS120Sender
     return this;
   }
 
+  /**
+   * @return <code>true</code> if the Webservice connection trusts all
+   *         certificates and therefore does not check for certificate
+   *         revocation etc. If this is enabled, the security of transmission
+   *         cannot be guaranteed! The default value is
+   *         {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.
+   */
+  public boolean isTrustAllCertificates ()
+  {
+    return m_bTrustAllCertificates;
+  }
+
+  /**
+   * Change whether the the Webservice connection trusts all certificates and
+   * therefore does not check for certificate revocation etc. If this is
+   * enabled, the security of transmission cannot be guaranteed! The default
+   * value is {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.<br>
+   * Internally a special {@link SSLContext} with a
+   * {@link DoNothingTrustManager} is created.
+   * 
+   * @param bTrustAllCertificates
+   *        <code>true</code> to lower the security level and disable the
+   *        certificate check, or <code>false</code> to enable the certificate
+   *        check.
+   * @return this
+   */
+  @Nonnull
+  public WS120Sender setTrustAllCertificates (final boolean bTrustAllCertificates)
+  {
+    m_bTrustAllCertificates = bTrustAllCertificates;
+    return this;
+  }
+
+  /**
+   * @return <code>true</code> if the Webservice connection does not check the
+   *         hostname as specified in the certificate of the receiver. For
+   *         ER&gt; using the txm.portal.at service, this should always be
+   *         <code>false</code>. If this is enabled, the security of
+   *         transmission cannot be guaranteed! The default value is
+   *         {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname
+   *         check should always be enabled.
+   */
+  public boolean isTrustAllHostnames ()
+  {
+    return m_bTrustAllHostnames;
+  }
+
+  /**
+   * Change whether the the Webservice connection should check the hostname as
+   * specified in the certificate of the receiver or not. If this is enabled,
+   * the security of transmission cannot be guaranteed! The default value is
+   * {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname check should
+   * always be enabled.<br>
+   * Internally a special {@link HostnameVerifierAlwaysTrue} is installed.
+   * 
+   * @param bTrustAllHostnames
+   *        <code>true</code> to lower the security level and trust all
+   *        hostnames, or <code>false</code> to enable the certificate hostname
+   *        check.
+   * @return this
+   */
+  @Nonnull
+  public WS120Sender setTrustAllHostnames (final boolean bTrustAllHostnames)
+  {
+    m_bTrustAllHostnames = bTrustAllHostnames;
+    return this;
+  }
+
   @Nonnull
   private static TypeUploadStatus _createError (@Nonnull final String sField, @Nonnull final String sMessage)
   {
@@ -186,10 +266,29 @@ public class WS120Sender
     return ret;
   }
 
+  /**
+   * This is the main sending routine. It can be invoked multiple times with
+   * different invoices.
+   * 
+   * @param aOriginalInvoice
+   *        The original invoice in an XML representation. May not be
+   *        <code>null</code>.
+   * @param aAttachments
+   *        An optional list of attachments to this invoice. If the list is non-
+   *        <code>null</code> it must contain only non-<code>null</code>
+   *        elements.
+   * @param aSettings
+   *        The settings element as specified by the ER&gt;B Webservice 1.2.
+   *        Within this settings element e.g. the test-flag can be set. May not
+   *        be <code>null</code>.
+   * @return A non-<code>null</code> upload status as returned by the ER&gt;B
+   *         Webservice. In case of an internal error, a corresponding error
+   *         structure is created.
+   */
   @Nonnull
-  public TypeUploadStatus send (@Nonnull final Document aOriginalInvoice,
-                                @Nullable final List <AttachmentType> aAttachments,
-                                @Nonnull final SettingsType aSettings)
+  public TypeUploadStatus deliverInvoice (@Nonnull final Node aOriginalInvoice,
+                                          @Nullable final List <AttachmentType> aAttachments,
+                                          @Nonnull final SettingsType aSettings)
   {
     ValueEnforcer.notNull (aOriginalInvoice, "OriginalInvoice");
     ValueEnforcer.notNull (aSettings, "Settings");
@@ -224,7 +323,29 @@ public class WS120Sender
       aBP.getRequestContext ().put (BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                                     m_bTestVersion ? ENDPOINT_URL_TEST : ENDPOINT_URL_PRODUCTION);
 
-      // Ensure the WSSE headers are added
+      if (m_bTrustAllCertificates)
+      {
+        // Maybe required to trust txm.portal.at depending on the installed OS
+        // root certificates.
+        final SSLContext aSSLCtx = SSLContext.getInstance ("TLS");
+        aSSLCtx.init (null, new TrustManager [] { new DoNothingTrustManager () }, VerySecureRandom.getInstance ());
+        // Use JAXWS and runtime JAXWS property
+        aBP.getRequestContext ().put (JAXWSProperties.SSL_SOCKET_FACTORY, aSSLCtx.getSocketFactory ());
+        aBP.getRequestContext ().put ("com.sun.xml.internal.ws.transport.https.client.SSLSocketFactory",
+                                      aSSLCtx.getSocketFactory ());
+      }
+
+      if (m_bTrustAllHostnames)
+      {
+        // Should not be required for txm.portal.at
+        final HostnameVerifier aHostnameVerifier = new HostnameVerifierAlwaysTrue ();
+        // Use JAXWS and runtime JAXWS property
+        aBP.getRequestContext ().put (JAXWSProperties.HOSTNAME_VERIFIER, aHostnameVerifier);
+        aBP.getRequestContext ().put ("com.sun.xml.internal.ws.transport.https.client.hostname.verifier",
+                                      aHostnameVerifier);
+      }
+
+      // Ensure the WSSE headers are added using our handler
       @SuppressWarnings ("rawtypes")
       final List <Handler> aHandlers = new ArrayList <Handler> ();
       aHandlers.add (new SOAPAddWSSEHeaderHandler (m_sWebserviceUsername, m_sWebservicePassword));
@@ -236,13 +357,18 @@ public class WS120Sender
     }
     catch (final UploadException ex)
     {
-      s_aLogger.error ("Error uploading the document!", ex);
+      s_aLogger.error ("Error uploading the document to ER>B Webservice 1.2!", ex);
       return _createError ("document", ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
     }
     catch (final WebServiceException ex)
     {
-      s_aLogger.error ("Error transmitting the document!", ex);
+      s_aLogger.error ("Error transmitting the document to ER>B Webservice 1.2!", ex);
       return _createError ("webservice", ex.getMessage ());
+    }
+    catch (final Throwable t)
+    {
+      s_aLogger.error ("Generic error invoking ER>B Webservice 1.2", t);
+      return _createError ("general", t.getMessage ());
     }
   }
 }
