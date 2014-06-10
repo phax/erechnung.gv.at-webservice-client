@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.erechnung.erb.ws120;
+package com.helger.erechnung.erb.ws200;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,22 +33,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
-import at.gv.brz.eproc.erb.ws.documentupload._20121205.AttachmentType;
-import at.gv.brz.eproc.erb.ws.documentupload._20121205.DocumentType;
-import at.gv.brz.eproc.erb.ws.documentupload._20121205.SettingsType;
-import at.gv.brz.eproc.erb.ws.documentupload._20121205.UploadException;
-import at.gv.brz.eproc.erb.ws.documentupload._20121205.WSDocumentUploadService;
-import at.gv.brz.eproc.erb.ws.documentupload._20121205.Wsupload;
-import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeError;
-import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetail;
-import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetails;
-import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliverInvoiceFaultInvoice;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryEmbeddedAttachmentType;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryErrorDetailType;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryErrorType;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryInvoiceType;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryResponseType;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliverySettingsType;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryType;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryPort;
+import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryService;
 
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
 import com.phloc.commons.ValueEnforcer;
 import com.phloc.commons.annotations.Nonempty;
 import com.phloc.commons.charset.CharsetManager;
+import com.phloc.commons.collections.ContainerHelper;
 import com.phloc.commons.random.VerySecureRandom;
 import com.phloc.commons.xml.serialize.XMLWriter;
 import com.phloc.commons.xml.serialize.XMLWriterSettings;
@@ -57,38 +58,45 @@ import com.phloc.web.https.HostnameVerifierAlwaysTrue;
 import com.sun.xml.ws.developer.JAXWSProperties;
 
 /**
- * A wrapper for invoking the Webservice 1.2 for ER>B - E-Rechnung an den Bund.
+ * A wrapper for invoking the Webservice 2.0 for ER>B - E-Rechnung an den Bund.
  * The technical details can be found at
- * https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws12
+ * https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws20
  * 
  * @author Philip Helger
  */
 @NotThreadSafe
-public class WS120Sender extends AbstractWSSender <WS120Sender>
+public class WS200Sender extends AbstractWSSender <WS200Sender>
 {
-  public static final String ENDPOINT_URL_PRODUCTION = "https://txm.portal.at/at.gv.bmf.erb/V1";
-  public static final String ENDPOINT_URL_TEST = "https://txm.portal.at/at.gv.bmf.erb.test/V1";
+  public static final String ENDPOINT_URL_PRODUCTION = "https://txm.portal.at/at.gv.bmf.erb/V2";
+  public static final String ENDPOINT_URL_TEST = "https://txm.portal.at/at.gv.bmf.erb.test/V2";
 
   // Logger to use
-  private static final Logger s_aLogger = LoggerFactory.getLogger (WS120Sender.class);
+  private static final Logger s_aLogger = LoggerFactory.getLogger (WS200Sender.class);
 
-  public WS120Sender (@Nonnull @Nonempty final String sWebserviceUsername,
+  public WS200Sender (@Nonnull @Nonempty final String sWebserviceUsername,
                       @Nonnull @Nonempty final String sWebservicePassword)
   {
     super (sWebserviceUsername, sWebservicePassword);
   }
 
   @Nonnull
-  private static TypeUploadStatus _createError (@Nonnull final String sField, @Nonnull final String sMessage)
+  private static DeliveryResponseType _createError (@Nonnull final String sField, @Nonnull final String sMessage)
   {
-    final TypeUploadStatus ret = new TypeUploadStatus ();
-    final TypeError aError = new TypeError ();
-    final TypeErrorDetails aDetails = new TypeErrorDetails ();
-    final TypeErrorDetail aDetail = new TypeErrorDetail ();
-    aDetail.setField (sField);
-    aDetail.setMessage (sMessage);
-    aDetails.getErrorDetail ().add (aDetail);
-    aError.setErrorDetails (aDetails);
+    return _createError (sField, ContainerHelper.newList (sMessage));
+  }
+
+  @Nonnull
+  private static DeliveryResponseType _createError (@Nonnull final String sField, @Nonnull final List <String> aMessages)
+  {
+    final DeliveryResponseType ret = new DeliveryResponseType ();
+    final DeliveryErrorType aError = new DeliveryErrorType ();
+    for (final String sMessage : aMessages)
+    {
+      final DeliveryErrorDetailType aDetail = new DeliveryErrorDetailType ();
+      aDetail.setField (sField);
+      aDetail.setMessage (sMessage);
+      aError.getErrorDetail ().add (aDetail);
+    }
     ret.setError (aError);
     return ret;
   }
@@ -113,9 +121,9 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
    *         structure is created.
    */
   @Nonnull
-  public TypeUploadStatus deliverInvoice (@Nonnull final Node aOriginalInvoice,
-                                          @Nullable final List <AttachmentType> aAttachments,
-                                          @Nonnull final SettingsType aSettings)
+  public DeliveryResponseType deliverInvoice (@Nonnull final Node aOriginalInvoice,
+                                              @Nullable final List <DeliveryEmbeddedAttachmentType> aAttachments,
+                                              @Nonnull final DeliverySettingsType aSettings)
   {
     ValueEnforcer.notNull (aOriginalInvoice, "OriginalInvoice");
     ValueEnforcer.notNull (aSettings, "Settings");
@@ -136,15 +144,27 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     }
 
     // Prepare document
-    final DocumentType aDocument = new DocumentType ();
-    aDocument.setValue (CharsetManager.getAsBytes (sInvoiceString, getInvoiceEncoding ()));
-    aDocument.setEncoding (getInvoiceEncoding ().name ());
+    final DeliveryType aDelivery = new DeliveryType ();
+
+    // Main invoice
+    final DeliveryInvoiceType aInvoice = new DeliveryInvoiceType ();
+    aInvoice.setValue (CharsetManager.getAsBytes (sInvoiceString, getInvoiceEncoding ()));
+    aInvoice.setEncoding (getInvoiceEncoding ().name ());
+    aDelivery.setInvoice (aInvoice);
+
+    // Embedded attachments
+    aDelivery.setEmbeddedAttachment (aAttachments);
+
+    // ER>B does not support external attachments!
+
+    // Settings
+    aDelivery.setSettings (aSettings);
 
     try
     {
       // Invoke WS
-      final WSDocumentUploadService aService = new WSDocumentUploadService ();
-      final Wsupload aPort = aService.getWSDocumentUploadPort ();
+      final WSInvoiceDeliveryService aService = new WSInvoiceDeliveryService ();
+      final WSInvoiceDeliveryPort aPort = aService.getWSInvoiceDeliveryPort ();
       final BindingProvider aBP = (BindingProvider) aPort;
 
       // Determine where to send the WS request to
@@ -180,22 +200,24 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
       aBP.getBinding ().setHandlerChain (aHandlers);
 
       // Main sending
-      final TypeUploadStatus aResult = aPort.uploadDocument (aDocument, aAttachments, aSettings);
+      final DeliveryResponseType aResult = aPort.deliverInvoice (aDelivery);
       return aResult;
     }
-    catch (final UploadException ex)
+    catch (final DeliverInvoiceFaultInvoice ex)
     {
-      s_aLogger.error ("Error uploading the document to ER>B Webservice 1.2!", ex);
-      return _createError ("document", ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
+      s_aLogger.error ("Error uploading the document to ER>B Webservice 2.0!", ex);
+      return _createError ("document",
+                           ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage ()
+                                                     : ContainerHelper.newList (ex.getMessage ()));
     }
     catch (final WebServiceException ex)
     {
-      s_aLogger.error ("Error transmitting the document to ER>B Webservice 1.2!", ex);
+      s_aLogger.error ("Error transmitting the document to ER>B Webservice 2.0!", ex);
       return _createError ("webservice", ex.getMessage ());
     }
     catch (final Throwable t)
     {
-      s_aLogger.error ("Generic error invoking ER>B Webservice 1.2", t);
+      s_aLogger.error ("Generic error invoking ER>B Webservice 2.0", t);
       return _createError ("general", t.getMessage ());
     }
   }

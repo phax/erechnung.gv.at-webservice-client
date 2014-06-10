@@ -25,6 +25,10 @@ import org.junit.Test;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import at.gv.brz.eproc.erb.ws.documentupload._20121205.AttachmentType;
+import at.gv.brz.eproc.erb.ws.documentupload._20121205.SettingsType;
+import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
+
 import com.phloc.commons.io.resource.ClassPathResource;
 import com.phloc.commons.xml.serialize.XMLReader;
 

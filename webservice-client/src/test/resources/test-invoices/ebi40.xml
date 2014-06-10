@@ -42,7 +42,7 @@
     <eb:VATIdentificationNumber>ATU12345678</eb:VATIdentificationNumber>
     <eb:BillersInvoiceRecipientID>BIR4567</eb:BillersInvoiceRecipientID>
     <eb:OrderReference>
-      <eb:OrderID>501:4599999999</eb:OrderID>
+      <eb:OrderID>Z01:external reference</eb:OrderID>
       <eb:ReferenceDate>2009-09-01</eb:ReferenceDate>
     </eb:OrderReference>
     <eb:Address>

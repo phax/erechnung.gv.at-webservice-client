@@ -76,7 +76,11 @@
         <configuration>
           <instructions>
             <Export-Package>
-              com.helger.erechnung.erb.*
+              com.helger.erechnung.erb.*,
+              at.gv.brz.eproc.erb.ws.documentupload._20121205,
+              at.gv.brz.eproc.erb.ws.invoicedelivery._201306,
+              at.gv.brz.eproc.erb.ws.invoicedeliverycallback._201305,
+              at.gv.brz.schema.eproc.invoice_uploadstatus_1_0
             </Export-Package>
           </instructions>
         </configuration>
@@ -105,7 +109,6 @@
                 <wsdlFile>document-upload-1.2.0.wsdl</wsdlFile>
               </wsdlFiles>
               <wsdlLocation>/WEB-INF/wsdl/document-upload-1.2.0.wsdl</wsdlLocation>
-              <packageName>com.helger.erechnung.erb.ws120</packageName>
             </configuration>
           </execution>
           <execution>
@@ -118,7 +121,6 @@
                 <wsdlFile>erb-invoicedelivery-200.wsdl</wsdlFile>
               </wsdlFiles>
               <wsdlLocation>/WEB-INF/wsdl/erb-invoicedelivery-200.wsdl</wsdlLocation>
-              <packageName>com.helger.erechnung.erb.ws200</packageName>
             </configuration>
           </execution>
           <execution>
@@ -131,7 +133,6 @@
                 <wsdlFile>erb-invoicedelivery-callback-100.wsdl</wsdlFile>
               </wsdlFiles>
               <wsdlLocation>/WEB-INF/wsdl/erb-invoicedelivery-callback-100.wsdl</wsdlLocation>
-              <packageName>com.helger.erechnung.erb.callback100</packageName>
             </configuration>
           </execution>
         </executions>
