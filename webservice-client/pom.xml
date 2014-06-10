@@ -28,7 +28,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>webservice-client</name>
-  <description>Utility library that provides support for sending eInvoices to the Austrian Government by using the Webservice interface</description>
+  <description>Utility library that provides support for sending eInvoices to the Austrian Government (ER&gt;B) by using the Webservice interface</description>
   
   <licenses>
     <license>
@@ -44,6 +44,14 @@
     <url>http://github.com/phax/erechnung.gv.at/webservice-client</url>
     <tag>HEAD</tag>
   </scm>
+ 
+  <developers>
+    <developer>
+      <id>philip</id>
+      <name>Philip Helger</name>
+      <email>ph(at)phloc.com</email>
+    </developer>
+  </developers>
  
   <dependencies>
     <dependency>

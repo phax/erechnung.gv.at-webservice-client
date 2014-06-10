@@ -30,15 +30,18 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import com.phloc.commons.ValueEnforcer;
 import com.phloc.commons.annotations.Nonempty;
+import com.phloc.commons.string.ToStringGenerator;
 
 /**
- * A special SOAP handler that adds the WS Security headers as described in
- * https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws20
+ * A special SOAP handler that adds the WS Security headers for the
+ * txm.portal.at machine as described on the ER&gt;B web site.
  * 
+ * @see "https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws20"
  * @author Philip Helger
  */
 public class SOAPAddWSSEHeaderHandler implements SOAPHandler <SOAPMessageContext>
 {
+  /** The required XML namespace URI */
   public static final String WSSE_NSURI = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
 
   private final String m_sUSPWebserviceUsername;
@@ -51,6 +54,28 @@ public class SOAPAddWSSEHeaderHandler implements SOAPHandler <SOAPMessageContext
     m_sUSPWebservicePassword = ValueEnforcer.notEmpty (sUSPWebservicePassword, "USP Webservice Password");
   }
 
+  /**
+   * @return The USP web service user name as specified in the constructor.
+   *         Neither <code>null</code> nor empty.
+   */
+  @Nonnull
+  @Nonempty
+  public String getUSPWebserviceUsername ()
+  {
+    return m_sUSPWebserviceUsername;
+  }
+
+  /**
+   * @return The USP web service password as specified in the constructor.
+   *         Neither <code>null</code> nor empty.
+   */
+  @Nonnull
+  @Nonempty
+  public String getUSPWebservicePassword ()
+  {
+    return m_sUSPWebservicePassword;
+  }
+
   @Nullable
   public Set <QName> getHeaders ()
   {
@@ -60,6 +85,7 @@ public class SOAPAddWSSEHeaderHandler implements SOAPHandler <SOAPMessageContext
   @Override
   public boolean handleMessage (@Nonnull final SOAPMessageContext aContext)
   {
+    // Handle only outbound messages (in contrast to inbound messages)
     final boolean bOutbound = ((Boolean) aContext.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY)).booleanValue ();
     if (bOutbound)
     {
@@ -92,5 +118,13 @@ public class SOAPAddWSSEHeaderHandler implements SOAPHandler <SOAPMessageContext
   public boolean handleFault (final SOAPMessageContext aContext)
   {
     return true;
+  }
+
+  @Override
+  public String toString ()
+  {
+    return new ToStringGenerator (this).append ("uspWebserviceUsername", m_sUSPWebserviceUsername)
+                                       .appendPassword ("uspWebservicePassword")
+                                       .toString ();
   }
 }

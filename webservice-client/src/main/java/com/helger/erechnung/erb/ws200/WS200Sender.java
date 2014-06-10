@@ -60,8 +60,8 @@ import com.sun.xml.ws.developer.JAXWSProperties;
 /**
  * A wrapper for invoking the Webservice 2.0 for ER>B - E-Rechnung an den Bund.
  * The technical details can be found at
- * https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws20
  * 
+ * @see "https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws20"
  * @author Philip Helger
  */
 @NotThreadSafe
@@ -107,7 +107,8 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
    * 
    * @param aOriginalInvoice
    *        The original invoice in an XML representation. May not be
-   *        <code>null</code>.
+   *        <code>null</code>. It may be in any of the formats supported by
+   *        ER&gt;B (ebInterface 3.0, 3.02, 4.0, 4.1 or UBL 2.0, 2.1).
    * @param aAttachments
    *        An optional list of attachments to this invoice. If the list is non-
    *        <code>null</code> it must contain only non-<code>null</code>
