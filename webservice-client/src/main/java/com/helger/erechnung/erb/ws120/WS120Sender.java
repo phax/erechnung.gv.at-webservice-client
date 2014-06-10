@@ -145,15 +145,25 @@ public class WS120Sender
 
   /**
    * @return <code>true</code> if the Webservice of the test version should be
-   *         invoked, false if the Webservice of the production version should
-   *         be invoked. Please note that to invoke the test version, the
-   *         appropriate access right in the USP must be assigned.
+   *         invoked, <code>false</code> if the Webservice of the production
+   *         version should be invoked. Please note that to invoke the test
+   *         version, the appropriate access right in the USP must be assigned.
+   *         The default value is {@link #DEFAULT_TEST_VERSION}.
    */
   public boolean isTestVersion ()
   {
     return m_bTestVersion;
   }
 
+  /**
+   * Change whether the test Webservice or the production Webservice should be
+   * invoked. The default value is {@link #DEFAULT_TEST_VERSION}.
+   * 
+   * @param bTestVersion
+   *        <code>true</code> to invoke the test Webservice, <code>false</code>
+   *        to invoke the production Webservice.
+   * @return this
+   */
   @Nonnull
   public WS120Sender setTestVersion (final boolean bTestVersion)
   {
