@@ -40,8 +40,8 @@
   </licenses>
      
   <scm>
-    <connection>scm:git:git@github.com:phax/erechnung.gv.at.git</connection>
-    <developerConnection>scm:git:git@github.com:phax/erechnung.gv.at.git</developerConnection>
+    <connection>scm:git:git@github.com:phax/erechnung.gv.at.git/webservice-client</connection>
+    <developerConnection>scm:git:git@github.com:phax/erechnung.gv.at.git/webservice-client</developerConnection>
     <url>http://github.com/phax/erechnung.gv.at/webservice-client</url>
     <tag>HEAD</tag>
   </scm>
