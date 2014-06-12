@@ -24,7 +24,7 @@
     <artifactId>parent-pom</artifactId>
     <version>23.1</version>
   </parent>
-  <groupId>com.helger.erechnung</groupId>
+  <groupId>com.helger.erechnung.gv.at</groupId>
   <artifactId>webservice-client</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
