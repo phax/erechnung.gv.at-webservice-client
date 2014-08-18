@@ -20,20 +20,17 @@ import java.nio.charset.Charset;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
-import javax.net.ssl.SSLContext;
 
 import com.phloc.commons.ValueEnforcer;
 import com.phloc.commons.annotations.Nonempty;
 import com.phloc.commons.charset.CCharset;
 import com.phloc.commons.lang.GenericReflection;
 import com.phloc.commons.string.ToStringGenerator;
-import com.phloc.web.https.DoNothingTrustManager;
-import com.phloc.web.https.HostnameVerifierAlwaysTrue;
 
 /**
  * Abstract base class for for the ER>B - E-Rechnung an den Bund - Webservice
  * wrapper.
- * 
+ *
  * @author Philip Helger
  * @param <IMPLTYPE>
  *        The real implementation type
@@ -104,7 +101,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   /**
    * Set the encoding of the original XML invoice to be used. The default value
    * is {@link #DEFAULT_INVOICE_ENCODING}.
-   * 
+   *
    * @param aInvoiceEncoding
    *        The new encoding to be used. May not be <code>null</code>.
    * @return this
@@ -129,7 +126,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   /**
    * Change the setting of the debug mode. Enabling the debug mode means, that
    * the exchanged Webservice messages are logged to stdout.
-   * 
+   *
    * @param bDebugMode
    *        The new value of the debug flag. <code>true</code> to enable debug
    *        mode, <code>false</code> to disable it.
@@ -157,7 +154,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   /**
    * Change whether the test Webservice or the production Webservice should be
    * invoked. The default value is {@link #DEFAULT_TEST_VERSION}.
-   * 
+   *
    * @param bTestVersion
    *        <code>true</code> to invoke the test Webservice, <code>false</code>
    *        to invoke the production Webservice.
@@ -189,7 +186,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * value is {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.<br>
    * Internally a special {@link SSLContext} with a
    * {@link DoNothingTrustManager} is created.
-   * 
+   *
    * @param bTrustAllCertificates
    *        <code>true</code> to lower the security level and disable the
    *        certificate check, or <code>false</code> to enable the certificate
@@ -224,7 +221,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname check should
    * always be enabled.<br>
    * Internally a special {@link HostnameVerifierAlwaysTrue} is installed.
-   * 
+   *
    * @param bTrustAllHostnames
    *        <code>true</code> to lower the security level and trust all
    *        hostnames, or <code>false</code> to enable the certificate hostname
