@@ -29,12 +29,12 @@ import at.gv.brz.eproc.erb.ws.documentupload._20121205.AttachmentType;
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.SettingsType;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
 
-import com.phloc.commons.io.resource.ClassPathResource;
-import com.phloc.commons.xml.serialize.XMLReader;
+import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.commons.xml.serialize.DOMReader;
 
 /**
  * Unit test class for class {@link WS120Sender}.
- * 
+ *
  * @author Philip Helger
  */
 public final class WS120SenderTest
@@ -47,7 +47,7 @@ public final class WS120SenderTest
    * password are present. After setting {@link #USP_WS_USERNAME} and
    * {@link #USP_WS_PASSWORD} constants in this class, this test can be
    * "un-ignored".
-   * 
+   *
    * @throws SAXException
    *         in case XML reading fails
    */
@@ -55,7 +55,7 @@ public final class WS120SenderTest
   @Ignore
   public void testDeliverInvoice1 () throws SAXException
   {
-    final Node aXMLDocument = XMLReader.readXMLDOM (new ClassPathResource ("test-invoices/ebi40.xml"));
+    final Node aXMLDocument = DOMReader.readXMLDOM (new ClassPathResource ("test-invoices/ebi40.xml"));
     assertNotNull ("Failed to read example invoice", aXMLDocument);
 
     final WS120Sender aSender = new WS120Sender (USP_WS_USERNAME, USP_WS_PASSWORD);

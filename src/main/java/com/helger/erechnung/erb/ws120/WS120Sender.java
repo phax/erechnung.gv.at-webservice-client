@@ -44,16 +44,16 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetail;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetails;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
 
+import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotations.Nonempty;
+import com.helger.commons.charset.CharsetManager;
+import com.helger.commons.random.VerySecureRandom;
+import com.helger.commons.xml.serialize.XMLWriter;
+import com.helger.commons.xml.serialize.XMLWriterSettings;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
-import com.phloc.commons.ValueEnforcer;
-import com.phloc.commons.annotations.Nonempty;
-import com.phloc.commons.charset.CharsetManager;
-import com.phloc.commons.random.VerySecureRandom;
-import com.phloc.commons.xml.serialize.XMLWriter;
-import com.phloc.commons.xml.serialize.XMLWriterSettings;
-import com.phloc.web.https.DoNothingTrustManager;
-import com.phloc.web.https.HostnameVerifierAlwaysTrue;
+import com.helger.web.https.DoNothingTrustManager;
+import com.helger.web.https.HostnameVerifierAlwaysTrue;
 import com.sun.xml.ws.developer.JAXWSProperties;
 
 /**

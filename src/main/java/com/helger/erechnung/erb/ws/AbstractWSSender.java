@@ -21,11 +21,11 @@ import java.nio.charset.Charset;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 
-import com.phloc.commons.ValueEnforcer;
-import com.phloc.commons.annotations.Nonempty;
-import com.phloc.commons.charset.CCharset;
-import com.phloc.commons.lang.GenericReflection;
-import com.phloc.commons.string.ToStringGenerator;
+import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotations.Nonempty;
+import com.helger.commons.charset.CCharset;
+import com.helger.commons.lang.GenericReflection;
+import com.helger.commons.string.ToStringGenerator;
 
 /**
  * Abstract base class for for the ER>B - E-Rechnung an den Bund - Webservice

@@ -50,20 +50,21 @@
     <developer>
       <id>philip</id>
       <name>Philip Helger</name>
-      <email>ph(at)phloc.com</email>
+      <email>ph(at)helger.com</email>
+      <url>http://www.helger.com</url>
     </developer>
   </developers>
  
   <dependencies>
     <dependency>
-      <groupId>com.phloc</groupId>
-      <artifactId>phloc-commons</artifactId>
-      <version>4.3.5</version>
+      <groupId>com.helger</groupId>
+      <artifactId>ph-commons</artifactId>
+      <version>5.0.0</version>
     </dependency>
     <dependency>
-      <groupId>com.phloc</groupId>
-      <artifactId>phloc-web</artifactId>
-      <version>5.5.1</version>
+      <groupId>com.helger</groupId>
+      <artifactId>ph-web</artifactId>
+      <version>6.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.sun.xml.ws</groupId>
@@ -152,16 +153,16 @@
             <xjcArg>-target</xjcArg>
             <xjcArg>2.1</xjcArg>
             <xjcArg>-no-header</xjcArg>
-            <xjcArg>-Xphloc-default-locale</xjcArg>
+            <xjcArg>-Xph-default-locale</xjcArg>
             <xjcArg>en_US</xjcArg>
-            <xjcArg>-Xphloc-annotate</xjcArg>
-            <xjcArg>-Xphloc-fields-private</xjcArg>
-            <xjcArg>-Xphloc-code-quality</xjcArg>
-            <xjcArg>-Xphloc-implements</xjcArg>
+            <xjcArg>-Xph-annotate</xjcArg>
+            <xjcArg>-Xph-fields-private</xjcArg>
+            <xjcArg>-Xph-code-quality</xjcArg>
+            <xjcArg>-Xph-implements</xjcArg>
             <xjcArg>java.io.Serializable</xjcArg>
-            <xjcArg>-Xphloc-equalshashcode</xjcArg>
-            <xjcArg>-Xphloc-tostring</xjcArg>
-            <xjcArg>-Xphloc-list-extension</xjcArg>
+            <xjcArg>-Xph-equalshashcode</xjcArg>
+            <xjcArg>-Xph-tostring</xjcArg>
+            <xjcArg>-Xph-list-extension</xjcArg>
           </xjcArgs>
         </configuration>
         <dependencies>
@@ -181,9 +182,9 @@
             <version>2.2.7</version>
           </dependency>
           <dependency>
-            <groupId>com.phloc</groupId>
-            <artifactId>phloc-jaxb22-plugin</artifactId>
-            <version>2.2.7.5</version>
+            <groupId>com.helger</groupId>
+            <artifactId>ph-jaxb22-plugin</artifactId>
+            <version>2.2.7</version>
           </dependency>
           <dependency>
             <groupId>xerces</groupId>
