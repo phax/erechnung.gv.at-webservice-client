@@ -30,6 +30,8 @@
   <packaging>bundle</packaging>
   <name>webservice-client</name>
   <description>Utility library that provides support for sending eInvoices to the Austrian Government (ER&gt;B) by using the Webservice interface</description>
+  <url>https://github.com/phax/erechnung.gv.at-webservice-client</url>
+  <inceptionYear>2014</inceptionYear>
   
   <licenses>
     <license>
@@ -46,6 +48,11 @@
     <tag>HEAD</tag>
   </scm>
  
+  <organization>
+    <name>Philip Helger</name>
+    <url>http://www.helger.com</url>
+  </organization>
+
   <developers>
     <developer>
       <id>philip</id>
