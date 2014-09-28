@@ -20,3 +20,7 @@ Add the following to your pom.xml to use this artifact:
 When importing this project into Eclipse, please ensure to run `mvn generate-sources` to generate all 
 the JAXB classes required. They reside in `target/generated-sources/wsimport` and must be part of the
 compilation.
+
+---
+
+On Twitter: <a href="https://twitter.com/philiphelger">Follow @philiphelger</a>
