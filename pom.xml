@@ -99,6 +99,9 @@
               at.gv.brz.eproc.erb.ws.invoicedeliverycallback._201305,
               at.gv.brz.schema.eproc.invoice_uploadstatus_1_0
             </Export-Package>
+            <Import-Package>
+              !javax.annotation.*,*
+            </Import-Package>
           </instructions>
         </configuration>
       </plugin>
