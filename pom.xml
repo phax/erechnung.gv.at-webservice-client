@@ -159,9 +159,8 @@
         <configuration>
           <wsdlDirectory>src/main/resources/WEB-INF/wsdl</wsdlDirectory>
           <xnocompile>true</xnocompile>
+          <target>2.1</target>
           <xjcArgs>
-            <xjcArg>-target</xjcArg>
-            <xjcArg>2.1</xjcArg>
             <xjcArg>-no-header</xjcArg>
             <xjcArg>-Xph-default-locale</xjcArg>
             <xjcArg>en_US</xjcArg>
