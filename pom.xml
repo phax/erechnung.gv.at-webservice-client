@@ -178,6 +178,7 @@
             <xjcArg>-Xph-equalshashcode</xjcArg>
             <xjcArg>-Xph-tostring</xjcArg>
             <xjcArg>-Xph-list-extension</xjcArg>
+            <xjcArg>-Xph-csu</xjcArg>
           </xjcArgs>
         </configuration>
         <dependencies>
