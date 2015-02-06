@@ -166,6 +166,9 @@
           <wsdlDirectory>src/main/resources/WEB-INF/wsdl</wsdlDirectory>
           <xnocompile>true</xnocompile>
           <target>2.1</target>
+          <args>
+            <arg>-ph-csu</arg>
+          </args>
           <xjcArgs>
             <xjcArg>-no-header</xjcArg>
             <xjcArg>-Xph-default-locale</xjcArg>
@@ -178,7 +181,6 @@
             <xjcArg>-Xph-equalshashcode</xjcArg>
             <xjcArg>-Xph-tostring</xjcArg>
             <xjcArg>-Xph-list-extension</xjcArg>
-            <xjcArg>-Xph-csu</xjcArg>
           </xjcArgs>
         </configuration>
         <dependencies>
@@ -191,6 +193,11 @@
             <groupId>com.helger</groupId>
             <artifactId>ph-jaxb22-plugin</artifactId>
             <version>2.2.11.2</version>
+          </dependency>
+          <dependency>
+            <groupId>com.helger</groupId>
+            <artifactId>ph-wsimport-plugin</artifactId>
+            <version>2.2.8</version>
           </dependency>
           <dependency>
             <groupId>xerces</groupId>
