@@ -61,6 +61,12 @@
       <url>http://www.helger.com</url>
     </developer>
   </developers>
+  
+  <properties>
+    <jaxws-plugin.version>2.3.1-b20150201.1248</jaxws-plugin.version>
+    <!-- Must correspond to jaxws-tools.version in jaxws-maven-plugin POM -->
+    <jaxws.version>2.2.9-b14002</jaxws.version>
+  </properties>
  
   <dependencies>
     <dependency>
@@ -76,7 +82,7 @@
     <dependency>
       <groupId>com.sun.xml.ws</groupId>
       <artifactId>jaxws-rt</artifactId>
-      <version>2.2.8</version>
+      <version>${jaxws.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -117,7 +123,7 @@
       <plugin>
         <groupId>org.jvnet.jax-ws-commons</groupId>
         <artifactId>jaxws-maven-plugin</artifactId>
-        <version>2.3</version>
+        <version>${jaxws-plugin.version}</version>
         <executions>
           <execution>
             <id>wsimport120</id>
@@ -178,22 +184,12 @@
           <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-tools</artifactId>
-            <version>2.2.8</version>
-          </dependency>
-          <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.2.7</version>
-          </dependency>
-          <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-xjc</artifactId>
-            <version>2.2.7</version>
+            <version>${jaxws.version}</version>
           </dependency>
           <dependency>
             <groupId>com.helger</groupId>
             <artifactId>ph-jaxb22-plugin</artifactId>
-            <version>2.2.7</version>
+            <version>2.2.11.2</version>
           </dependency>
           <dependency>
             <groupId>xerces</groupId>
