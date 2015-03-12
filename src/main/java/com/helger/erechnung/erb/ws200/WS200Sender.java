@@ -47,7 +47,7 @@ import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryService;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotations.Nonempty;
 import com.helger.commons.charset.CharsetManager;
-import com.helger.commons.collections.ContainerHelper;
+import com.helger.commons.collections.CollectionHelper;
 import com.helger.commons.random.VerySecureRandom;
 import com.helger.commons.xml.serialize.XMLWriter;
 import com.helger.commons.xml.serialize.XMLWriterSettings;
@@ -60,7 +60,7 @@ import com.sun.xml.ws.developer.JAXWSProperties;
 /**
  * A wrapper for invoking the Webservice 2.0 for ER>B - E-Rechnung an den Bund.
  * The technical details can be found at
- * 
+ *
  * @see "https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws20"
  * @author Philip Helger
  */
@@ -82,7 +82,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   @Nonnull
   private static DeliveryResponseType _createError (@Nonnull final String sField, @Nonnull final String sMessage)
   {
-    return _createError (sField, ContainerHelper.newList (sMessage));
+    return _createError (sField, CollectionHelper.newList (sMessage));
   }
 
   @Nonnull
@@ -104,7 +104,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   /**
    * This is the main sending routine. It can be invoked multiple times with
    * different invoices.
-   * 
+   *
    * @param aOriginalInvoice
    *        The original invoice in an XML representation. May not be
    *        <code>null</code>. It may be in any of the formats supported by
@@ -209,7 +209,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
       s_aLogger.error ("Error uploading the document to ER>B Webservice 2.0!", ex);
       return _createError ("document",
                            ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage ()
-                                                     : ContainerHelper.newList (ex.getMessage ()));
+                                                     : CollectionHelper.newList (ex.getMessage ()));
     }
     catch (final WebServiceException ex)
     {
