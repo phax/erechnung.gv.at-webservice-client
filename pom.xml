@@ -72,12 +72,12 @@
     <dependency>
       <groupId>com.helger</groupId>
       <artifactId>ph-commons</artifactId>
-      <version>5.7.0</version>
+      <version>5.7.1</version>
     </dependency>
     <dependency>
       <groupId>com.helger</groupId>
       <artifactId>ph-web</artifactId>
-      <version>6.4.3-SNAPSHOT</version>
+      <version>6.4.3</version>
     </dependency>
     <dependency>
       <groupId>com.sun.xml.ws</groupId>
