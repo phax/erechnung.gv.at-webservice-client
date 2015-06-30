@@ -25,12 +25,12 @@ import org.junit.Test;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.commons.xml.serialize.read.DOMReader;
+
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.AttachmentType;
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.SettingsType;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
-
-import com.helger.commons.io.resource.ClassPathResource;
-import com.helger.commons.xml.serialize.DOMReader;
 
 /**
  * Unit test class for class {@link WS120Sender}.

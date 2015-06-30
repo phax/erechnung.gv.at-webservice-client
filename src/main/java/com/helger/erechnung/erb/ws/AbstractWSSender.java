@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotations.Nonempty;
+import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.charset.CCharset;
 import com.helger.commons.lang.GenericReflection;
 import com.helger.commons.string.ToStringGenerator;
