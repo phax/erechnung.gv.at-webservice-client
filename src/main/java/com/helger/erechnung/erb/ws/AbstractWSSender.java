@@ -184,8 +184,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * therefore does not check for certificate revocation etc. If this is
    * enabled, the security of transmission cannot be guaranteed! The default
    * value is {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.<br>
-   * Internally a special {@link SSLContext} with a
-   * {@link DoNothingTrustManager} is created.
+   * Internally a special {@link javax.net.ssl.SSLContext} with a
+   * {@link com.helger.web.https.DoNothingTrustManager} is created.
    *
    * @param bTrustAllCertificates
    *        <code>true</code> to lower the security level and disable the
@@ -220,7 +220,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * the security of transmission cannot be guaranteed! The default value is
    * {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname check should
    * always be enabled.<br>
-   * Internally a special {@link HostnameVerifierAlwaysTrue} is installed.
+   * Internally a special
+   * {@link com.helger.web.https.HostnameVerifierAlwaysTrue} is installed.
    *
    * @param bTrustAllHostnames
    *        <code>true</code> to lower the security level and trust all
