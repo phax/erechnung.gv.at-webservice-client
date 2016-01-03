@@ -86,7 +86,8 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   }
 
   @Nonnull
-  private static DeliveryResponseType _createError (@Nonnull final String sField, @Nonnull final List <String> aMessages)
+  private static DeliveryResponseType _createError (@Nonnull final String sField,
+                                                    @Nonnull final List <String> aMessages)
   {
     final DeliveryResponseType ret = new DeliveryResponseType ();
     final DeliveryErrorType aError = new DeliveryErrorType ();
@@ -209,7 +210,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
       s_aLogger.error ("Error uploading the document to ER>B Webservice 2.0!", ex);
       return _createError ("document",
                            ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage ()
-                                                     : CollectionHelper.newList (ex.getMessage ()));
+                                                      : CollectionHelper.newList (ex.getMessage ()));
     }
     catch (final WebServiceException ex)
     {

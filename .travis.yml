@@ -1,7 +1,10 @@
 language: java
 
 jdk:
-  - openjdk6
+  - oraclejdk8
+  
+install:
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -U
   
 cache:
   directories:

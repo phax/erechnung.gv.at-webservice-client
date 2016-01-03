@@ -59,7 +59,7 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
 /**
  * A wrapper for invoking the Webservice 1.2 for ER>B - E-Rechnung an den Bund.
  * The technical details can be found at
- * 
+ *
  * @see "https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws12"
  * @author Philip Helger
  */
@@ -96,7 +96,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
   /**
    * This is the main sending routine. It can be invoked multiple times with
    * different invoices.
-   * 
+   *
    * @param aOriginalInvoice
    *        The original invoice in an XML representation. May not be
    *        <code>null</code>. It may be in any of the formats supported by
@@ -187,7 +187,8 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     catch (final UploadException ex)
     {
       s_aLogger.error ("Error uploading the document to ER>B Webservice 1.2!", ex);
-      return _createError ("document", ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
+      return _createError ("document",
+                           ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
     }
     catch (final WebServiceException ex)
     {
