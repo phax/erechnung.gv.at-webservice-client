@@ -21,7 +21,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.ebinterface.at/schema/4p0/ http://www.ebinterface.at/schema/4p0/Invoice.xsd"
   eb:GeneratingSystem="none" eb:DocumentType="Invoice" eb:InvoiceCurrency="EUR">
-  <eb:InvoiceNumber>993433000298</eb:InvoiceNumber>
+  <eb:InvoiceNumber>erechnung-webservice-client-test-file</eb:InvoiceNumber>
   <eb:InvoiceDate>2014-01-01</eb:InvoiceDate>
   <eb:Delivery>
     <eb:Date>2013-02-28</eb:Date>
