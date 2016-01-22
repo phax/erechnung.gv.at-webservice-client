@@ -183,6 +183,10 @@
             <xjcArg>-Xph-tostring</xjcArg>
             <xjcArg>-Xph-list-extension</xjcArg>
           </xjcArgs>
+          <!-- Required to work with a JDK 1.8 and/or Maven &gt; 3.0.4 -->
+          <vmArgs>
+            <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+          </vmArgs>
         </configuration>
         <dependencies>
           <dependency>
