@@ -38,6 +38,7 @@ import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.charset.CharsetManager;
 import com.helger.commons.collection.CollectionHelper;
 import com.helger.commons.random.VerySecureRandom;
+import com.helger.commons.system.SystemProperties;
 import com.helger.commons.xml.serialize.write.XMLWriter;
 import com.helger.commons.xml.serialize.write.XMLWriterSettings;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
@@ -131,10 +132,9 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
     ValueEnforcer.notNull (aSettings, "Settings");
 
     // Some debug output
-    System.setProperty ("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump",
-                        Boolean.toString (isDebugMode ()));
-    System.setProperty ("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump",
-                        Boolean.toString (isDebugMode ()));
+    SystemProperties.setPropertyValue ("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", isDebugMode ());
+    SystemProperties.setPropertyValue ("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump",
+                                       isDebugMode ());
 
     // Convert XML node to a String
     final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ());

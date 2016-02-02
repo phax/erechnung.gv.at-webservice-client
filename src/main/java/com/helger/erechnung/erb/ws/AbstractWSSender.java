@@ -24,8 +24,8 @@ import javax.annotation.concurrent.NotThreadSafe;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.charset.CCharset;
-import com.helger.commons.lang.GenericReflection;
 import com.helger.commons.string.ToStringGenerator;
+import com.helger.commons.traits.IGenericImplTrait;
 
 /**
  * Abstract base class for for the ER>B - E-Rechnung an den Bund - Webservice
@@ -36,7 +36,7 @@ import com.helger.commons.string.ToStringGenerator;
  *        The real implementation type
  */
 @NotThreadSafe
-public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>>
+public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>> implements IGenericImplTrait <IMPLTYPE>
 {
   // Default encoding according to XSD
   public static final Charset DEFAULT_INVOICE_ENCODING = CCharset.CHARSET_UTF_8_OBJ;
@@ -92,12 +92,6 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
     return m_aInvoiceEncoding;
   }
 
-  @Nonnull
-  private IMPLTYPE _thisAsT ()
-  {
-    return GenericReflection.<Object, IMPLTYPE> uncheckedCast (this);
-  }
-
   /**
    * Set the encoding of the original XML invoice to be used. The default value
    * is {@link #DEFAULT_INVOICE_ENCODING}.
@@ -111,7 +105,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   {
     ValueEnforcer.notNull (aInvoiceEncoding, "InvoiceEncoding");
     m_aInvoiceEncoding = aInvoiceEncoding;
-    return _thisAsT ();
+    return thisAsT ();
   }
 
   /**
@@ -136,7 +130,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   public IMPLTYPE setDebugMode (final boolean bDebugMode)
   {
     m_bDebugMode = bDebugMode;
-    return _thisAsT ();
+    return thisAsT ();
   }
 
   /**
@@ -164,7 +158,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   public IMPLTYPE setTestVersion (final boolean bTestVersion)
   {
     m_bTestVersion = bTestVersion;
-    return _thisAsT ();
+    return thisAsT ();
   }
 
   /**
@@ -197,7 +191,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   public IMPLTYPE setTrustAllCertificates (final boolean bTrustAllCertificates)
   {
     m_bTrustAllCertificates = bTrustAllCertificates;
-    return _thisAsT ();
+    return thisAsT ();
   }
 
   /**
@@ -233,7 +227,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   public IMPLTYPE setTrustAllHostnames (final boolean bTrustAllHostnames)
   {
     m_bTrustAllHostnames = bTrustAllHostnames;
-    return _thisAsT ();
+    return thisAsT ();
   }
 
   @Override
