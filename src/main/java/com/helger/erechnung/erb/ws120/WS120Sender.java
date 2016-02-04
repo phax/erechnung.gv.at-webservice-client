@@ -16,18 +16,14 @@
  */
 package com.helger.erechnung.erb.ws120;
 
-import java.util.ArrayList;
+import java.net.URL;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.Handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,15 +32,13 @@ import org.w3c.dom.Node;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.charset.CharsetManager;
-import com.helger.commons.random.VerySecureRandom;
-import com.helger.commons.system.SystemProperties;
+import com.helger.commons.url.URLHelper;
+import com.helger.commons.ws.WSClientConfig;
+import com.helger.commons.ws.WSHelper;
 import com.helger.commons.xml.serialize.write.XMLWriter;
 import com.helger.commons.xml.serialize.write.XMLWriterSettings;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
-import com.helger.web.https.DoNothingTrustManager;
-import com.helger.web.https.HostnameVerifierAlwaysTrue;
-import com.sun.xml.ws.developer.JAXWSProperties;
 
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.AttachmentType;
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.DocumentType;
@@ -67,8 +61,8 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
 @NotThreadSafe
 public class WS120Sender extends AbstractWSSender <WS120Sender>
 {
-  public static final String ENDPOINT_URL_PRODUCTION = "https://txm.portal.at/at.gv.bmf.erb/V1";
-  public static final String ENDPOINT_URL_TEST = "https://txm.portal.at/at.gv.bmf.erb.test/V1";
+  public static final URL ENDPOINT_URL_PRODUCTION = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb/V1");
+  public static final URL ENDPOINT_URL_TEST = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb.test/V1");
 
   // Logger to use
   private static final Logger s_aLogger = LoggerFactory.getLogger (WS120Sender.class);
@@ -123,9 +117,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     ValueEnforcer.notNull (aSettings, "Settings");
 
     // Some debug output
-    SystemProperties.setPropertyValue ("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", isDebugMode ());
-    SystemProperties.setPropertyValue ("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump",
-                                       isDebugMode ());
+    WSHelper.enableSoapLogging (isDebugMode ());
 
     // Convert XML node to a String
     final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ());
@@ -143,42 +135,26 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
 
     try
     {
-      // Invoke WS
-      final WSDocumentUploadService aService = new WSDocumentUploadService ();
-      final Wsupload aPort = aService.getWSDocumentUploadPort ();
-      final BindingProvider aBP = (BindingProvider) aPort;
-
-      // Determine where to send the WS request to
-      aBP.getRequestContext ().put (BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-                                    isTestVersion () ? ENDPOINT_URL_TEST : ENDPOINT_URL_PRODUCTION);
+      final WSClientConfig aWSClientConfig = new WSClientConfig (isTestVersion () ? ENDPOINT_URL_TEST
+                                                                                  : ENDPOINT_URL_PRODUCTION);
 
       if (isTrustAllCertificates ())
       {
         // Maybe required to trust txm.portal.at depending on the installed OS
         // root certificates.
-        final SSLContext aSSLCtx = SSLContext.getInstance ("TLS");
-        aSSLCtx.init (null, new TrustManager [] { new DoNothingTrustManager () }, VerySecureRandom.getInstance ());
-        // Use JAXWS and runtime JAXWS property
-        aBP.getRequestContext ().put (JAXWSProperties.SSL_SOCKET_FACTORY, aSSLCtx.getSocketFactory ());
-        aBP.getRequestContext ().put ("com.sun.xml.internal.ws.transport.https.client.SSLSocketFactory",
-                                      aSSLCtx.getSocketFactory ());
+        aWSClientConfig.setSSLSocketFactoryTrustAll ();
       }
 
       if (isTrustAllHostnames ())
-      {
-        // Should not be required for txm.portal.at
-        final HostnameVerifier aHostnameVerifier = new HostnameVerifierAlwaysTrue ();
-        // Use JAXWS and runtime JAXWS property
-        aBP.getRequestContext ().put (JAXWSProperties.HOSTNAME_VERIFIER, aHostnameVerifier);
-        aBP.getRequestContext ().put ("com.sun.xml.internal.ws.transport.https.client.hostname.verifier",
-                                      aHostnameVerifier);
-      }
+        aWSClientConfig.setHostnameVerifierTrustAll ();
 
       // Ensure the WSSE headers are added using our handler
-      @SuppressWarnings ("rawtypes")
-      final List <Handler> aHandlers = new ArrayList <Handler> ();
-      aHandlers.add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
-      aBP.getBinding ().setHandlerChain (aHandlers);
+      aWSClientConfig.addHandler (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
+
+      // Invoke WS
+      final WSDocumentUploadService aService = new WSDocumentUploadService ();
+      final Wsupload aPort = aService.getWSDocumentUploadPort ();
+      aWSClientConfig.applyWSSettingsToBindingProvider ((BindingProvider) aPort);
 
       // Main sending
       final TypeUploadStatus aResult = aPort.uploadDocument (aDocument, aAttachments, aSettings);

@@ -16,18 +16,14 @@
  */
 package com.helger.erechnung.erb.ws200;
 
-import java.util.ArrayList;
+import java.net.URL;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.Handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,15 +33,13 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.charset.CharsetManager;
 import com.helger.commons.collection.CollectionHelper;
-import com.helger.commons.random.VerySecureRandom;
 import com.helger.commons.system.SystemProperties;
+import com.helger.commons.url.URLHelper;
+import com.helger.commons.ws.WSClientConfig;
 import com.helger.commons.xml.serialize.write.XMLWriter;
 import com.helger.commons.xml.serialize.write.XMLWriterSettings;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
-import com.helger.web.https.DoNothingTrustManager;
-import com.helger.web.https.HostnameVerifierAlwaysTrue;
-import com.sun.xml.ws.developer.JAXWSProperties;
 
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliverInvoiceFaultInvoice;
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryEmbeddedAttachmentType;
@@ -68,8 +62,8 @@ import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryService;
 @NotThreadSafe
 public class WS200Sender extends AbstractWSSender <WS200Sender>
 {
-  public static final String ENDPOINT_URL_PRODUCTION = "https://txm.portal.at/at.gv.bmf.erb/V2";
-  public static final String ENDPOINT_URL_TEST = "https://txm.portal.at/at.gv.bmf.erb.test/V2";
+  public static final URL ENDPOINT_URL_PRODUCTION = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb/V2");
+  public static final URL ENDPOINT_URL_TEST = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb.test/V2");
 
   // Logger to use
   private static final Logger s_aLogger = LoggerFactory.getLogger (WS200Sender.class);
@@ -164,42 +158,26 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
 
     try
     {
-      // Invoke WS
-      final WSInvoiceDeliveryService aService = new WSInvoiceDeliveryService ();
-      final WSInvoiceDeliveryPort aPort = aService.getWSInvoiceDeliveryPort ();
-      final BindingProvider aBP = (BindingProvider) aPort;
-
-      // Determine where to send the WS request to
-      aBP.getRequestContext ().put (BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-                                    isTestVersion () ? ENDPOINT_URL_TEST : ENDPOINT_URL_PRODUCTION);
+      final WSClientConfig aWSClientConfig = new WSClientConfig (isTestVersion () ? ENDPOINT_URL_TEST
+                                                                                  : ENDPOINT_URL_PRODUCTION);
 
       if (isTrustAllCertificates ())
       {
         // Maybe required to trust txm.portal.at depending on the installed OS
         // root certificates.
-        final SSLContext aSSLCtx = SSLContext.getInstance ("TLS");
-        aSSLCtx.init (null, new TrustManager [] { new DoNothingTrustManager () }, VerySecureRandom.getInstance ());
-        // Use JAXWS and runtime JAXWS property
-        aBP.getRequestContext ().put (JAXWSProperties.SSL_SOCKET_FACTORY, aSSLCtx.getSocketFactory ());
-        aBP.getRequestContext ().put ("com.sun.xml.internal.ws.transport.https.client.SSLSocketFactory",
-                                      aSSLCtx.getSocketFactory ());
+        aWSClientConfig.setSSLSocketFactoryTrustAll ();
       }
 
       if (isTrustAllHostnames ())
-      {
-        // Should not be required for txm.portal.at
-        final HostnameVerifier aHostnameVerifier = new HostnameVerifierAlwaysTrue ();
-        // Use JAXWS and runtime JAXWS property
-        aBP.getRequestContext ().put (JAXWSProperties.HOSTNAME_VERIFIER, aHostnameVerifier);
-        aBP.getRequestContext ().put ("com.sun.xml.internal.ws.transport.https.client.hostname.verifier",
-                                      aHostnameVerifier);
-      }
+        aWSClientConfig.setHostnameVerifierTrustAll ();
 
       // Ensure the WSSE headers are added using our handler
-      @SuppressWarnings ("rawtypes")
-      final List <Handler> aHandlers = new ArrayList <Handler> ();
-      aHandlers.add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
-      aBP.getBinding ().setHandlerChain (aHandlers);
+      aWSClientConfig.addHandler (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
+
+      // Invoke WS
+      final WSInvoiceDeliveryService aService = new WSInvoiceDeliveryService ();
+      final WSInvoiceDeliveryPort aPort = aService.getWSInvoiceDeliveryPort ();
+      aWSClientConfig.applyWSSettingsToBindingProvider ((BindingProvider) aPort);
 
       // Main sending
       final DeliveryResponseType aResult = aPort.deliverInvoice (aDelivery);
