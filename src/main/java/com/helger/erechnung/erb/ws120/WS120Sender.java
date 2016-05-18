@@ -52,8 +52,8 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetails;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
 
 /**
- * A wrapper for invoking the Webservice 1.2 for ER>B - E-Rechnung an den Bund.
- * The technical details can be found at
+ * A wrapper for invoking the Webservice 1.2 for ER&gt;B - E-Rechnung an den
+ * Bund. The technical details can be found at
  *
  * @see "https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws12"
  * @author Philip Helger

@@ -28,7 +28,7 @@ import com.helger.commons.string.ToStringGenerator;
 import com.helger.commons.traits.IGenericImplTrait;
 
 /**
- * Abstract base class for for the ER>B - E-Rechnung an den Bund - Webservice
+ * Abstract base class for for the ER&gt;B - E-Rechnung an den Bund - Webservice
  * wrapper.
  *
  * @author Philip Helger
@@ -36,7 +36,8 @@ import com.helger.commons.traits.IGenericImplTrait;
  *        The real implementation type
  */
 @NotThreadSafe
-public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>> implements IGenericImplTrait <IMPLTYPE>
+public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>>
+                                       implements IGenericImplTrait <IMPLTYPE>
 {
   // Default encoding according to XSD
   public static final Charset DEFAULT_INVOICE_ENCODING = CCharset.CHARSET_UTF_8_OBJ;
@@ -179,7 +180,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * enabled, the security of transmission cannot be guaranteed! The default
    * value is {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.<br>
    * Internally a special {@link javax.net.ssl.SSLContext} with a
-   * {@link com.helger.web.https.DoNothingTrustManager} is created.
+   * {@link com.helger.commons.ws.TrustManagerTrustAll} is created.
    *
    * @param bTrustAllCertificates
    *        <code>true</code> to lower the security level and disable the
@@ -215,7 +216,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname check should
    * always be enabled.<br>
    * Internally a special
-   * {@link com.helger.web.https.HostnameVerifierAlwaysTrue} is installed.
+   * {@link com.helger.commons.ws.HostnameVerifierVerifyAll} is installed.
    *
    * @param bTrustAllHostnames
    *        <code>true</code> to lower the security level and trust all
