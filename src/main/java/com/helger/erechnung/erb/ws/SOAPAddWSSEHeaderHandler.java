@@ -29,6 +29,7 @@ import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.CodingStyleguideUnaware;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.string.ToStringGenerator;
 
@@ -77,6 +78,7 @@ public class SOAPAddWSSEHeaderHandler implements SOAPHandler <SOAPMessageContext
   }
 
   @Nullable
+  @CodingStyleguideUnaware
   public Set <QName> getHeaders ()
   {
     return null;
