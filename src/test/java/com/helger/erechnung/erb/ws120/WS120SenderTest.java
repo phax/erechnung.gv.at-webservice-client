@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import com.helger.commons.io.resource.ClassPathResource;
-import com.helger.commons.xml.serialize.read.DOMReader;
+import com.helger.xml.serialize.read.DOMReader;
 
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.AttachmentType;
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.SettingsType;

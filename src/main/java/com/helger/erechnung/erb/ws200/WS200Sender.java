@@ -36,10 +36,10 @@ import com.helger.commons.collection.CollectionHelper;
 import com.helger.commons.system.SystemProperties;
 import com.helger.commons.url.URLHelper;
 import com.helger.commons.ws.WSClientConfig;
-import com.helger.commons.xml.serialize.write.XMLWriter;
-import com.helger.commons.xml.serialize.write.XMLWriterSettings;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
+import com.helger.xml.serialize.write.XMLWriter;
+import com.helger.xml.serialize.write.XMLWriterSettings;
 
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliverInvoiceFaultInvoice;
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryEmbeddedAttachmentType;

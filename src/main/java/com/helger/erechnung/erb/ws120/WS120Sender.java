@@ -35,10 +35,10 @@ import com.helger.commons.charset.CharsetManager;
 import com.helger.commons.url.URLHelper;
 import com.helger.commons.ws.WSClientConfig;
 import com.helger.commons.ws.WSHelper;
-import com.helger.commons.xml.serialize.write.XMLWriter;
-import com.helger.commons.xml.serialize.write.XMLWriterSettings;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
+import com.helger.xml.serialize.write.XMLWriter;
+import com.helger.xml.serialize.write.XMLWriterSettings;
 
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.AttachmentType;
 import at.gv.brz.eproc.erb.ws.documentupload._20121205.DocumentType;
