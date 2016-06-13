@@ -207,18 +207,13 @@
         </configuration>
         <dependencies>
           <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-tools</artifactId>
-            <version>${jaxws.version}</version>
-          </dependency>
-          <dependency>
             <groupId>com.helger</groupId>
             <artifactId>ph-jaxb22-plugin</artifactId>
             <version>2.2.11.7</version>
           </dependency>
           <dependency>
             <groupId>com.helger</groupId>
-            <artifactId>ph-wsimport-plugin</artifactId>
+            <artifactId>ph-wsimport-pugin</artifactId>
             <version>2.2.8.2-SNAPSHOT</version>
           </dependency>
         </dependencies>
