@@ -213,7 +213,7 @@
           </dependency>
           <dependency>
             <groupId>com.helger</groupId>
-            <artifactId>ph-wsimport-pugin</artifactId>
+            <artifactId>ph-wsimport-plugin</artifactId>
             <version>2.2.8.2</version>
           </dependency>
         </dependencies>
