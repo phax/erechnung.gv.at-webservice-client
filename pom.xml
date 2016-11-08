@@ -67,7 +67,7 @@
       <dependency>
         <groupId>com.helger</groupId>
         <artifactId>ph-commons-parent-pom</artifactId>
-        <version>8.5.2</version>
+        <version>8.5.4</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -83,9 +83,10 @@
       <artifactId>ph-xml</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.ws</groupId>
-      <artifactId>jaxws-rt</artifactId>
-      <version>${jaxws.version}</version>
+      <groupId>com.helger</groupId>
+      <artifactId>ph-jaxws</artifactId>
+      <version>1.0.1</version>
+      <type>pom</type>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
