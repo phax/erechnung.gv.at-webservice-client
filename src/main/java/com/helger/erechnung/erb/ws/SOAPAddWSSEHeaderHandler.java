@@ -127,6 +127,6 @@ public class SOAPAddWSSEHeaderHandler implements SOAPHandler <SOAPMessageContext
   {
     return new ToStringGenerator (this).append ("uspWebserviceUsername", m_sUSPWebserviceUsername)
                                        .appendPassword ("uspWebservicePassword")
-                                       .toString ();
+                                       .getToString ();
   }
 }

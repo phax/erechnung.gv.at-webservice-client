@@ -17,13 +17,13 @@
 package com.helger.erechnung.erb.ws;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.charset.CCharset;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.commons.traits.IGenericImplTrait;
 
@@ -40,7 +40,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
                                        implements IGenericImplTrait <IMPLTYPE>
 {
   // Default encoding according to XSD
-  public static final Charset DEFAULT_INVOICE_ENCODING = CCharset.CHARSET_UTF_8_OBJ;
+  public static final Charset DEFAULT_INVOICE_ENCODING = StandardCharsets.UTF_8;
   public static final boolean DEFAULT_DEBUG = false;
   public static final boolean DEFAULT_TEST_VERSION = false;
   public static final boolean DEFAULT_TRUST_ALL_CERTIFICATES = false;
@@ -241,6 +241,6 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
                                        .append ("testVersion", m_bTestVersion)
                                        .append ("trustAllCertificates", m_bTrustAllCertificates)
                                        .append ("trustAllHostnames", m_bTrustAllHostnames)
-                                       .toString ();
+                                       .getToString ();
   }
 }
