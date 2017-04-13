@@ -31,7 +31,6 @@ import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.charset.CharsetManager;
 import com.helger.commons.url.URLHelper;
 import com.helger.commons.ws.WSClientConfig;
 import com.helger.commons.ws.WSHelper;
@@ -130,7 +129,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
 
     // Prepare document
     final DocumentType aDocument = new DocumentType ();
-    aDocument.setValue (CharsetManager.getAsBytes (sInvoiceString, getInvoiceEncoding ()));
+    aDocument.setValue (sInvoiceString.getBytes (getInvoiceEncoding ()));
     aDocument.setEncoding (getInvoiceEncoding ().name ());
 
     try

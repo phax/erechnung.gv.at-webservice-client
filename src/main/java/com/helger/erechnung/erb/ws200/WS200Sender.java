@@ -31,7 +31,6 @@ import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.charset.CharsetManager;
 import com.helger.commons.collection.CollectionHelper;
 import com.helger.commons.system.SystemProperties;
 import com.helger.commons.url.URLHelper;
@@ -144,7 +143,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
 
     // Main invoice
     final DeliveryInvoiceType aInvoice = new DeliveryInvoiceType ();
-    aInvoice.setValue (CharsetManager.getAsBytes (sInvoiceString, getInvoiceEncoding ()));
+    aInvoice.setValue (sInvoiceString.getBytes (getInvoiceEncoding ()));
     aInvoice.setEncoding (getInvoiceEncoding ().name ());
     aDelivery.setInvoice (aInvoice);
 
