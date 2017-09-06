@@ -52,8 +52,8 @@ import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryPort;
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryService;
 
 /**
- * A wrapper for invoking the Webservice 2.0 for ER&gt;B - E-Rechnung an den
- * Bund. The technical details can be found at
+ * A wrapper for invoking the Webservice 2.0 for e-Rechnung.gv.at. The technical
+ * details can be found at
  *
  * @see "https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws20"
  * @author Philip Helger

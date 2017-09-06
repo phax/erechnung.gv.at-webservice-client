@@ -35,7 +35,7 @@ import com.helger.commons.string.ToStringGenerator;
 
 /**
  * A special SOAP handler that adds the WS Security headers for the
- * txm.portal.at machine as described on the ER&gt;B web site.
+ * txm.portal.at machine as described on the e-Rechnung.gv.at web site.
  *
  * @see "https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws20"
  * @author Philip Helger

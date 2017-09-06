@@ -28,16 +28,15 @@ import com.helger.commons.string.ToStringGenerator;
 import com.helger.commons.traits.IGenericImplTrait;
 
 /**
- * Abstract base class for for the ER&gt;B - E-Rechnung an den Bund - Webservice
- * wrapper.
+ * Abstract base class for for the e-Rechnung.gv.at Webservice wrapper.
  *
  * @author Philip Helger
  * @param <IMPLTYPE>
  *        The real implementation type
  */
 @NotThreadSafe
-public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>>
-                                       implements IGenericImplTrait <IMPLTYPE>
+public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>> implements
+                                       IGenericImplTrait <IMPLTYPE>
 {
   // Default encoding according to XSD
   public static final Charset DEFAULT_INVOICE_ENCODING = StandardCharsets.UTF_8;
