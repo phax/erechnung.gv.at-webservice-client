@@ -107,6 +107,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
+            <Automatic-Module-Name>com.helger.erechnung.erb</Automatic-Module-Name>
             <Export-Package>com.helger.erechnung.erb.*,
               at.gv.brz.eproc.erb.ws.documentupload._20121205,
               at.gv.brz.eproc.erb.ws.invoicedelivery._201306,
