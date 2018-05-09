@@ -32,10 +32,10 @@ import org.w3c.dom.Node;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.url.URLHelper;
-import com.helger.commons.ws.WSClientConfig;
-import com.helger.commons.ws.WSHelper;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
+import com.helger.wsclient.WSClientConfig;
+import com.helger.wsclient.WSHelper;
 import com.helger.xml.serialize.write.XMLWriter;
 import com.helger.xml.serialize.write.XMLWriterSettings;
 

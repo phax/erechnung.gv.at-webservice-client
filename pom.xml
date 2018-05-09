@@ -67,7 +67,7 @@
       <dependency>
         <groupId>com.helger</groupId>
         <artifactId>ph-commons-parent-pom</artifactId>
-        <version>9.0.2</version>
+        <version>9.1.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -84,9 +84,7 @@
     </dependency>
     <dependency>
       <groupId>com.helger</groupId>
-      <artifactId>ph-jaxws</artifactId>
-      <version>1.0.4</version>
-      <type>pom</type>
+      <artifactId>ph-wsclient</artifactId>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

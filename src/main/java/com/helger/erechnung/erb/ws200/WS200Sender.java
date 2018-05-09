@@ -34,9 +34,9 @@ import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.collection.CollectionHelper;
 import com.helger.commons.system.SystemProperties;
 import com.helger.commons.url.URLHelper;
-import com.helger.commons.ws.WSClientConfig;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
+import com.helger.wsclient.WSClientConfig;
 import com.helger.xml.serialize.write.XMLWriter;
 import com.helger.xml.serialize.write.XMLWriterSettings;
 
