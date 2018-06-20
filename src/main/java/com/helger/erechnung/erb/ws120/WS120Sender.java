@@ -148,7 +148,8 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
         aWSClientConfig.setHostnameVerifierTrustAll ();
 
       // Ensure the WSSE headers are added using our handler
-      aWSClientConfig.addHandler (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
+      aWSClientConfig.handlers ()
+                     .add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
 
       // Invoke WS
       final WSDocumentUploadService aService = new WSDocumentUploadService ();

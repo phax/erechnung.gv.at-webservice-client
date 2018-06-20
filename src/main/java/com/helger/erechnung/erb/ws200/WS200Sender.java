@@ -171,7 +171,8 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
         aWSClientConfig.setHostnameVerifierTrustAll ();
 
       // Ensure the WSSE headers are added using our handler
-      aWSClientConfig.addHandler (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
+      aWSClientConfig.handlers ()
+                     .add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
 
       // Invoke WS
       final WSInvoiceDeliveryService aService = new WSInvoiceDeliveryService ();
