@@ -65,7 +65,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   public static final URL ENDPOINT_URL_TEST = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb.test/V2");
 
   // Logger to use
-  private static final Logger s_aLogger = LoggerFactory.getLogger (WS200Sender.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger (WS200Sender.class);
 
   public WS200Sender (@Nonnull @Nonempty final String sWebserviceUsername,
                       @Nonnull @Nonempty final String sWebservicePassword)
@@ -134,7 +134,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
     final String sInvoiceString = XMLWriter.getNodeAsString (aOriginalInvoice, aXWS);
     if (sInvoiceString == null)
     {
-      s_aLogger.error ("Failed to serialize the specified XML document to a String!");
+      LOGGER.error ("Failed to serialize the specified XML document to a String!");
       return _createError ("document", "Failed to serialize the specified XML document to a String!");
     }
 
@@ -185,19 +185,19 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
     }
     catch (final DeliverInvoiceFaultInvoice ex)
     {
-      s_aLogger.error ("Error uploading the document to ER>B Webservice 2.0!", ex);
+      LOGGER.error ("Error uploading the document to ER>B Webservice 2.0!", ex);
       return _createError ("document",
                            ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage ()
                                                       : CollectionHelper.newList (ex.getMessage ()));
     }
     catch (final WebServiceException ex)
     {
-      s_aLogger.error ("Error transmitting the document to ER>B Webservice 2.0!", ex);
+      LOGGER.error ("Error transmitting the document to ER>B Webservice 2.0!", ex);
       return _createError ("webservice", ex.getMessage ());
     }
     catch (final Throwable t)
     {
-      s_aLogger.error ("Generic error invoking ER>B Webservice 2.0", t);
+      LOGGER.error ("Generic error invoking ER>B Webservice 2.0", t);
       return _createError ("general", t.getMessage ());
     }
   }

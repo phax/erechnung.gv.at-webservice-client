@@ -64,7 +64,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
   public static final URL ENDPOINT_URL_TEST = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb.test/V1");
 
   // Logger to use
-  private static final Logger s_aLogger = LoggerFactory.getLogger (WS120Sender.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger (WS120Sender.class);
 
   public WS120Sender (@Nonnull @Nonempty final String sWebserviceUsername,
                       @Nonnull @Nonempty final String sWebservicePassword)
@@ -123,7 +123,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     final String sInvoiceString = XMLWriter.getNodeAsString (aOriginalInvoice, aXWS);
     if (sInvoiceString == null)
     {
-      s_aLogger.error ("Failed to serialize the specified XML document to a String!");
+      LOGGER.error ("Failed to serialize the specified XML document to a String!");
       return _createError ("document", "Failed to serialize the specified XML document to a String!");
     }
 
@@ -162,18 +162,18 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     }
     catch (final UploadException ex)
     {
-      s_aLogger.error ("Error uploading the document to ER>B Webservice 1.2!", ex);
+      LOGGER.error ("Error uploading the document to ER>B Webservice 1.2!", ex);
       return _createError ("document",
                            ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
     }
     catch (final WebServiceException ex)
     {
-      s_aLogger.error ("Error transmitting the document to ER>B Webservice 1.2!", ex);
+      LOGGER.error ("Error transmitting the document to ER>B Webservice 1.2!", ex);
       return _createError ("webservice", ex.getMessage ());
     }
     catch (final Throwable t)
     {
-      s_aLogger.error ("Generic error invoking ER>B Webservice 1.2", t);
+      LOGGER.error ("Generic error invoking ER>B Webservice 1.2", t);
       return _createError ("general", t.getMessage ());
     }
   }
