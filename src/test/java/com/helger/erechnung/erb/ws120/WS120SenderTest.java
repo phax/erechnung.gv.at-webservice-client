@@ -23,7 +23,6 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.xml.serialize.read.DOMReader;
@@ -53,7 +52,7 @@ public final class WS120SenderTest
    */
   @Test
   @Ignore
-  public void testDeliverInvoice1 () throws SAXException
+  public void testDeliverInvoice1 ()
   {
     final Node aXMLDocument = DOMReader.readXMLDOM (new ClassPathResource ("test-invoices/ebi40.xml"));
     assertNotNull ("Failed to read example invoice", aXMLDocument);
