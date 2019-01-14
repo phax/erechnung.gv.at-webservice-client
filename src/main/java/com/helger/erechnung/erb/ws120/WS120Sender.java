@@ -66,10 +66,26 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
   // Logger to use
   private static final Logger LOGGER = LoggerFactory.getLogger (WS120Sender.class);
 
+  private URL m_aURL = ENDPOINT_URL_PRODUCTION;
+
   public WS120Sender (@Nonnull @Nonempty final String sWebserviceUsername,
                       @Nonnull @Nonempty final String sWebservicePassword)
   {
     super (sWebserviceUsername, sWebservicePassword);
+  }
+
+  @Nonnull
+  public final URL getURL ()
+  {
+    return m_aURL;
+  }
+
+  @Nonnull
+  public final WS120Sender setURL (@Nonnull final URL aURL)
+  {
+    ValueEnforcer.notNull (aURL, "URL");
+    m_aURL = aURL;
+    return this;
   }
 
   @Nonnull
@@ -81,7 +97,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     final TypeErrorDetail aDetail = new TypeErrorDetail ();
     aDetail.setField (sField);
     aDetail.setMessage (sMessage);
-    aDetails.getErrorDetail ().add (aDetail);
+    aDetails.addErrorDetail (aDetail);
     aError.setErrorDetails (aDetails);
     ret.setError (aError);
     return ret;
@@ -97,12 +113,11 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
    *        ER&gt;B (ebInterface 3.0, 3.02, 4.0, 4.1 or UBL 2.0, 2.1).
    * @param aAttachments
    *        An optional list of attachments to this invoice. If the list is non-
-   *        <code>null</code> it must contain only non-<code>null</code>
-   *        elements.
+   *        <code>null</code> it must contain only non-<code>null</code> elements.
    * @param aSettings
    *        The settings element as specified by the ER&gt;B Webservice 1.2.
-   *        Within this settings element e.g. the test-flag can be set. May not
-   *        be <code>null</code>.
+   *        Within this settings element e.g. the test-flag can be set. May not be
+   *        <code>null</code>.
    * @return A non-<code>null</code> upload status as returned by the ER&gt;B
    *         Webservice. In case of an internal error, a corresponding error
    *         structure is created.
@@ -134,8 +149,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
 
     try
     {
-      final WSClientConfig aWSClientConfig = new WSClientConfig (isTestVersion () ? ENDPOINT_URL_TEST
-                                                                                  : ENDPOINT_URL_PRODUCTION);
+      final WSClientConfig aWSClientConfig = new WSClientConfig (m_aURL);
 
       if (isTrustAllCertificates ())
       {

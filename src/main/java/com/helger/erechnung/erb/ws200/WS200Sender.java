@@ -31,7 +31,7 @@ import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.collection.CollectionHelper;
+import com.helger.commons.collection.impl.CommonsArrayList;
 import com.helger.commons.system.SystemProperties;
 import com.helger.commons.url.URLHelper;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
@@ -67,6 +67,8 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   // Logger to use
   private static final Logger LOGGER = LoggerFactory.getLogger (WS200Sender.class);
 
+  private URL m_aURL = ENDPOINT_URL_PRODUCTION;
+
   public WS200Sender (@Nonnull @Nonempty final String sWebserviceUsername,
                       @Nonnull @Nonempty final String sWebservicePassword)
   {
@@ -74,9 +76,23 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   }
 
   @Nonnull
+  public final URL getURL ()
+  {
+    return m_aURL;
+  }
+
+  @Nonnull
+  public final WS200Sender setURL (@Nonnull final URL aURL)
+  {
+    ValueEnforcer.notNull (aURL, "URL");
+    m_aURL = aURL;
+    return this;
+  }
+
+  @Nonnull
   private static DeliveryResponseType _createError (@Nonnull final String sField, @Nonnull final String sMessage)
   {
-    return _createError (sField, CollectionHelper.newList (sMessage));
+    return _createError (sField, new CommonsArrayList <> (sMessage));
   }
 
   @Nonnull
@@ -90,7 +106,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
       final DeliveryErrorDetailType aDetail = new DeliveryErrorDetailType ();
       aDetail.setField (sField);
       aDetail.setMessage (sMessage);
-      aError.getErrorDetail ().add (aDetail);
+      aError.addErrorDetail (aDetail);
     }
     ret.setError (aError);
     return ret;
@@ -106,12 +122,11 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
    *        ER&gt;B (ebInterface 3.0, 3.02, 4.0, 4.1 or UBL 2.0, 2.1).
    * @param aAttachments
    *        An optional list of attachments to this invoice. If the list is non-
-   *        <code>null</code> it must contain only non-<code>null</code>
-   *        elements.
+   *        <code>null</code> it must contain only non-<code>null</code> elements.
    * @param aSettings
    *        The settings element as specified by the ER&gt;B Webservice 1.2.
-   *        Within this settings element e.g. the test-flag can be set. May not
-   *        be <code>null</code>.
+   *        Within this settings element e.g. the test-flag can be set. May not be
+   *        <code>null</code>.
    * @return A non-<code>null</code> upload status as returned by the ER&gt;B
    *         Webservice. In case of an internal error, a corresponding error
    *         structure is created.
@@ -157,8 +172,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
 
     try
     {
-      final WSClientConfig aWSClientConfig = new WSClientConfig (isTestVersion () ? ENDPOINT_URL_TEST
-                                                                                  : ENDPOINT_URL_PRODUCTION);
+      final WSClientConfig aWSClientConfig = new WSClientConfig (m_aURL);
 
       if (isTrustAllCertificates ())
       {
@@ -188,7 +202,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
       LOGGER.error ("Error uploading the document to ER>B Webservice 2.0!", ex);
       return _createError ("document",
                            ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage ()
-                                                      : CollectionHelper.newList (ex.getMessage ()));
+                                                      : new CommonsArrayList <> (ex.getMessage ()));
     }
     catch (final WebServiceException ex)
     {
