@@ -143,6 +143,9 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
       return _createError ("document", "Failed to serialize the specified XML document");
     }
 
+    if (false)
+      LOGGER.info ("Created XML:\n" + new String (aInvoiceBytes, getInvoiceEncoding ()));
+
     // Prepare document
     final DocumentType aDocument = new DocumentType ();
     aDocument.setValue (aInvoiceBytes);

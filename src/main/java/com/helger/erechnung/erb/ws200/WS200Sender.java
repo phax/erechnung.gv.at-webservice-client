@@ -154,6 +154,9 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
       return _createError ("document", "Failed to serialize the specified XML document");
     }
 
+    if (false)
+      LOGGER.info ("Created XML:\n" + new String (aInvoiceBytes, getInvoiceEncoding ()));
+
     // Prepare document
     final DeliveryType aDelivery = new DeliveryType ();
 
