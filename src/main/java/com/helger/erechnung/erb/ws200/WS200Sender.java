@@ -145,12 +145,13 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
                                        isDebugMode ());
 
     // Convert XML node to a String
-    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ());
-    final String sInvoiceString = XMLWriter.getNodeAsString (aOriginalInvoice, aXWS);
-    if (sInvoiceString == null)
+    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ())
+                                                           .setNamespaceContext (getNamespaceContext ());
+    final byte [] aInvoiceBytes = XMLWriter.getNodeAsBytes (aOriginalInvoice, aXWS);
+    if (aInvoiceBytes == null)
     {
-      LOGGER.error ("Failed to serialize the specified XML document to a String!");
-      return _createError ("document", "Failed to serialize the specified XML document to a String!");
+      LOGGER.error ("Failed to serialize the specified XML document");
+      return _createError ("document", "Failed to serialize the specified XML document");
     }
 
     // Prepare document
@@ -158,7 +159,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
 
     // Main invoice
     final DeliveryInvoiceType aInvoice = new DeliveryInvoiceType ();
-    aInvoice.setValue (sInvoiceString.getBytes (getInvoiceEncoding ()));
+    aInvoice.setValue (aInvoiceBytes);
     aInvoice.setEncoding (getInvoiceEncoding ().name ());
     aDelivery.setInvoice (aInvoice);
 

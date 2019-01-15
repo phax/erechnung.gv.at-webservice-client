@@ -20,12 +20,14 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.commons.traits.IGenericImplTrait;
+import com.helger.xml.namespace.INamespaceContext;
 
 /**
  * Abstract base class for for the e-Rechnung.gv.at Webservice wrapper.
@@ -52,6 +54,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   private boolean m_bTestVersion = DEFAULT_TEST_VERSION;
   private boolean m_bTrustAllCertificates = DEFAULT_TRUST_ALL_CERTIFICATES;
   private boolean m_bTrustAllHostnames = DEFAULT_TRUST_ALL_HOSTNAMES;
+  private INamespaceContext m_aNSCtx;
 
   public AbstractWSSender (@Nonnull @Nonempty final String sWebserviceUsername,
                            @Nonnull @Nonempty final String sWebservicePassword)
@@ -66,7 +69,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    */
   @Nonnull
   @Nonempty
-  public String getWebserviceUsername ()
+  public final String getWebserviceUsername ()
   {
     return m_sWebserviceUsername;
   }
@@ -77,7 +80,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    */
   @Nonnull
   @Nonempty
-  public String getWebservicePassword ()
+  public final String getWebservicePassword ()
   {
     return m_sWebservicePassword;
   }
@@ -87,21 +90,21 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    *         {@link #DEFAULT_INVOICE_ENCODING}.
    */
   @Nonnull
-  public Charset getInvoiceEncoding ()
+  public final Charset getInvoiceEncoding ()
   {
     return m_aInvoiceEncoding;
   }
 
   /**
-   * Set the encoding of the original XML invoice to be used. The default value
-   * is {@link #DEFAULT_INVOICE_ENCODING}.
+   * Set the encoding of the original XML invoice to be used. The default value is
+   * {@link #DEFAULT_INVOICE_ENCODING}.
    *
    * @param aInvoiceEncoding
    *        The new encoding to be used. May not be <code>null</code>.
    * @return this
    */
   @Nonnull
-  public IMPLTYPE setInvoiceEncoding (@Nonnull final Charset aInvoiceEncoding)
+  public final IMPLTYPE setInvoiceEncoding (@Nonnull final Charset aInvoiceEncoding)
   {
     ValueEnforcer.notNull (aInvoiceEncoding, "InvoiceEncoding");
     m_aInvoiceEncoding = aInvoiceEncoding;
@@ -109,17 +112,17 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * @return <code>true</code> if the debug mode is enabled, <code>false</code>
-   *         if not. The default value is {@link #DEFAULT_DEBUG}.
+   * @return <code>true</code> if the debug mode is enabled, <code>false</code> if
+   *         not. The default value is {@link #DEFAULT_DEBUG}.
    */
-  public boolean isDebugMode ()
+  public final boolean isDebugMode ()
   {
     return m_bDebugMode;
   }
 
   /**
-   * Change the setting of the debug mode. Enabling the debug mode means, that
-   * the exchanged Webservice messages are logged to stdout.
+   * Change the setting of the debug mode. Enabling the debug mode means, that the
+   * exchanged Webservice messages are logged to stdout.
    *
    * @param bDebugMode
    *        The new value of the debug flag. <code>true</code> to enable debug
@@ -127,7 +130,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * @return this
    */
   @Nonnull
-  public IMPLTYPE setDebugMode (final boolean bDebugMode)
+  public final IMPLTYPE setDebugMode (final boolean bDebugMode)
   {
     m_bDebugMode = bDebugMode;
     return thisAsT ();
@@ -140,7 +143,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    *         version, the appropriate access right in the USP must be assigned.
    *         The default value is {@link #DEFAULT_TEST_VERSION}.
    */
-  public boolean isTestVersion ()
+  public final boolean isTestVersion ()
   {
     return m_bTestVersion;
   }
@@ -150,12 +153,12 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * invoked. The default value is {@link #DEFAULT_TEST_VERSION}.
    *
    * @param bTestVersion
-   *        <code>true</code> to invoke the test Webservice, <code>false</code>
-   *        to invoke the production Webservice.
+   *        <code>true</code> to invoke the test Webservice, <code>false</code> to
+   *        invoke the production Webservice.
    * @return this
    */
   @Nonnull
-  public IMPLTYPE setTestVersion (final boolean bTestVersion)
+  public final IMPLTYPE setTestVersion (final boolean bTestVersion)
   {
     m_bTestVersion = bTestVersion;
     return thisAsT ();
@@ -163,21 +166,21 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
 
   /**
    * @return <code>true</code> if the Webservice connection trusts all
-   *         certificates and therefore does not check for certificate
-   *         revocation etc. If this is enabled, the security of transmission
-   *         cannot be guaranteed! The default value is
+   *         certificates and therefore does not check for certificate revocation
+   *         etc. If this is enabled, the security of transmission cannot be
+   *         guaranteed! The default value is
    *         {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.
    */
-  public boolean isTrustAllCertificates ()
+  public final boolean isTrustAllCertificates ()
   {
     return m_bTrustAllCertificates;
   }
 
   /**
    * Change whether the the Webservice connection trusts all certificates and
-   * therefore does not check for certificate revocation etc. If this is
-   * enabled, the security of transmission cannot be guaranteed! The default
-   * value is {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.<br>
+   * therefore does not check for certificate revocation etc. If this is enabled,
+   * the security of transmission cannot be guaranteed! The default value is
+   * {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.<br>
    * Internally a special {@link javax.net.ssl.SSLContext} with a
    * {@link com.helger.commons.ws.TrustManagerTrustAll} is created.
    *
@@ -188,7 +191,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * @return this
    */
   @Nonnull
-  public IMPLTYPE setTrustAllCertificates (final boolean bTrustAllCertificates)
+  public final IMPLTYPE setTrustAllCertificates (final boolean bTrustAllCertificates)
   {
     m_bTrustAllCertificates = bTrustAllCertificates;
     return thisAsT ();
@@ -196,37 +199,49 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
 
   /**
    * @return <code>true</code> if the Webservice connection does not check the
-   *         hostname as specified in the certificate of the receiver. For
-   *         ER&gt; using the txm.portal.at service, this should always be
-   *         <code>false</code>. If this is enabled, the security of
-   *         transmission cannot be guaranteed! The default value is
-   *         {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname
-   *         check should always be enabled.
+   *         hostname as specified in the certificate of the receiver. For ER&gt;
+   *         using the txm.portal.at service, this should always be
+   *         <code>false</code>. If this is enabled, the security of transmission
+   *         cannot be guaranteed! The default value is
+   *         {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname check
+   *         should always be enabled.
    */
-  public boolean isTrustAllHostnames ()
+  public final boolean isTrustAllHostnames ()
   {
     return m_bTrustAllHostnames;
   }
 
   /**
    * Change whether the the Webservice connection should check the hostname as
-   * specified in the certificate of the receiver or not. If this is enabled,
-   * the security of transmission cannot be guaranteed! The default value is
+   * specified in the certificate of the receiver or not. If this is enabled, the
+   * security of transmission cannot be guaranteed! The default value is
    * {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname check should
    * always be enabled.<br>
-   * Internally a special
-   * {@link com.helger.commons.ws.HostnameVerifierVerifyAll} is installed.
+   * Internally a special {@link com.helger.commons.ws.HostnameVerifierVerifyAll}
+   * is installed.
    *
    * @param bTrustAllHostnames
-   *        <code>true</code> to lower the security level and trust all
-   *        hostnames, or <code>false</code> to enable the certificate hostname
-   *        check.
+   *        <code>true</code> to lower the security level and trust all hostnames,
+   *        or <code>false</code> to enable the certificate hostname check.
    * @return this
    */
   @Nonnull
-  public IMPLTYPE setTrustAllHostnames (final boolean bTrustAllHostnames)
+  public final IMPLTYPE setTrustAllHostnames (final boolean bTrustAllHostnames)
   {
     m_bTrustAllHostnames = bTrustAllHostnames;
+    return thisAsT ();
+  }
+
+  @Nullable
+  public final INamespaceContext getNamespaceContext ()
+  {
+    return m_aNSCtx;
+  }
+
+  @Nonnull
+  public final IMPLTYPE setNamespaceContext (@Nullable final INamespaceContext aNSCtx)
+  {
+    m_aNSCtx = aNSCtx;
     return thisAsT ();
   }
 
@@ -240,6 +255,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
                                        .append ("testVersion", m_bTestVersion)
                                        .append ("trustAllCertificates", m_bTrustAllCertificates)
                                        .append ("trustAllHostnames", m_bTrustAllHostnames)
+                                       .append ("NSCtx", m_aNSCtx)
                                        .getToString ();
   }
 }

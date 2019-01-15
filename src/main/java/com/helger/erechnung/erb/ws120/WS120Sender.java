@@ -134,17 +134,18 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     WSHelper.enableSoapLogging (isDebugMode ());
 
     // Convert XML node to a String
-    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ());
-    final String sInvoiceString = XMLWriter.getNodeAsString (aOriginalInvoice, aXWS);
-    if (sInvoiceString == null)
+    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ())
+                                                           .setNamespaceContext (getNamespaceContext ());
+    final byte [] aInvoiceBytes = XMLWriter.getNodeAsBytes (aOriginalInvoice, aXWS);
+    if (aInvoiceBytes == null)
     {
-      LOGGER.error ("Failed to serialize the specified XML document to a String!");
-      return _createError ("document", "Failed to serialize the specified XML document to a String!");
+      LOGGER.error ("Failed to serialize the specified XML document");
+      return _createError ("document", "Failed to serialize the specified XML document");
     }
 
     // Prepare document
     final DocumentType aDocument = new DocumentType ();
-    aDocument.setValue (sInvoiceString.getBytes (getInvoiceEncoding ()));
+    aDocument.setValue (aInvoiceBytes);
     aDocument.setEncoding (getInvoiceEncoding ().name ());
 
     try
