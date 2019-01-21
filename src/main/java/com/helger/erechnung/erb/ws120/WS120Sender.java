@@ -31,6 +31,7 @@ import org.w3c.dom.Node;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.annotation.OverrideOnDemand;
 import com.helger.commons.url.URLHelper;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
@@ -104,6 +105,16 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
   }
 
   /**
+   * Protected method to be overridden.
+   *
+   * @param aWSClientConfig
+   *        Client config to be modified. May not be <code>null</code>.
+   */
+  @OverrideOnDemand
+  protected void modifyWSClientConfig (@Nonnull final WSClientConfig aWSClientConfig)
+  {}
+
+  /**
    * This is the main sending routine. It can be invoked multiple times with
    * different invoices.
    *
@@ -168,6 +179,9 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
       // Ensure the WSSE headers are added using our handler
       aWSClientConfig.handlers ()
                      .add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
+
+      // Customizing callback
+      modifyWSClientConfig (aWSClientConfig);
 
       // Invoke WS
       final WSDocumentUploadService aService = new WSDocumentUploadService ();
