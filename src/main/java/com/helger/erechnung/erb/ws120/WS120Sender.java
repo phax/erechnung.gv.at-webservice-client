@@ -111,7 +111,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
    *        Client config to be modified. May not be <code>null</code>.
    */
   @OverrideOnDemand
-  protected void modifyWSClientConfig (@Nonnull final WSClientConfig aWSClientConfig)
+  protected void modifyWSClientConfig (@SuppressWarnings ("unused") @Nonnull final WSClientConfig aWSClientConfig)
   {}
 
   /**
@@ -124,11 +124,12 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
    *        ER&gt;B (ebInterface 3.0, 3.02, 4.0, 4.1 or UBL 2.0, 2.1).
    * @param aAttachments
    *        An optional list of attachments to this invoice. If the list is non-
-   *        <code>null</code> it must contain only non-<code>null</code> elements.
+   *        <code>null</code> it must contain only non-<code>null</code>
+   *        elements.
    * @param aSettings
    *        The settings element as specified by the ER&gt;B Webservice 1.2.
-   *        Within this settings element e.g. the test-flag can be set. May not be
-   *        <code>null</code>.
+   *        Within this settings element e.g. the test-flag can be set. May not
+   *        be <code>null</code>.
    * @return A non-<code>null</code> upload status as returned by the ER&gt;B
    *         Webservice. In case of an internal error, a corresponding error
    *         structure is created.
