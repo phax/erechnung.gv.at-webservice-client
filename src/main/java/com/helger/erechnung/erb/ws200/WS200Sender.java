@@ -33,11 +33,11 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.OverrideOnDemand;
 import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.system.SystemProperties;
 import com.helger.commons.url.URLHelper;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
 import com.helger.wsclient.WSClientConfig;
+import com.helger.wsclient.WSHelper;
 import com.helger.xml.serialize.write.XMLWriter;
 import com.helger.xml.serialize.write.XMLWriterSettings;
 
@@ -68,6 +68,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   // Logger to use
   private static final Logger LOGGER = LoggerFactory.getLogger (WS200Sender.class);
 
+  // Default endpoint is production
   private URL m_aURL = ENDPOINT_URL_PRODUCTION;
 
   public WS200Sender (@Nonnull @Nonempty final String sWebserviceUsername,
@@ -130,7 +131,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
    * @param aOriginalInvoice
    *        The original invoice in an XML representation. May not be
    *        <code>null</code>. It may be in any of the formats supported by
-   *        ER&gt;B (ebInterface 3.0, 3.02, 4.0, 4.1 or UBL 2.0, 2.1).
+   *        ER&gt;B (ebInterface 4.x, 5.x or UBL 2.x).
    * @param aAttachments
    *        An optional list of attachments to this invoice. If the list is non-
    *        <code>null</code> it must contain only non-<code>null</code>
@@ -151,12 +152,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
     ValueEnforcer.notNull (aOriginalInvoice, "OriginalInvoice");
     ValueEnforcer.notNull (aSettings, "Settings");
 
-    // Some debug output
-    SystemProperties.setPropertyValue ("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", isDebugMode ());
-    SystemProperties.setPropertyValue ("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump",
-                                       isDebugMode ());
-
-    // Convert XML node to a String
+    // Convert XML node to a byte array
     final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ())
                                                            .setNamespaceContext (getNamespaceContext ());
     final byte [] aInvoiceBytes = XMLWriter.getNodeAsBytes (aOriginalInvoice, aXWS);
@@ -168,6 +164,40 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
 
     if (false)
       LOGGER.info ("Created XML:\n" + new String (aInvoiceBytes, getInvoiceEncoding ()));
+
+    return deliverInvoice (aInvoiceBytes, aAttachments, aSettings);
+  }
+
+  /**
+   * This is the main sending routine. It can be invoked multiple times with
+   * different invoices.
+   *
+   * @param aInvoiceBytes
+   *        The byte array representation of the XML invoice to be send. May not
+   *        be <code>null</code>. It may be in any of the formats supported by
+   *        ER&gt;B (ebInterface 4.x, 5.x or UBL 2.x).
+   * @param aAttachments
+   *        An optional list of attachments to this invoice. If the list is non-
+   *        <code>null</code> it must contain only non-<code>null</code>
+   *        elements.
+   * @param aSettings
+   *        The settings element as specified by the ER&gt;B Webservice 1.2.
+   *        Within this settings element e.g. the test-flag can be set. May not
+   *        be <code>null</code>.
+   * @return A non-<code>null</code> upload status as returned by the ER&gt;B
+   *         Webservice. In case of an internal error, a corresponding error
+   *         structure is created.
+   */
+  @Nonnull
+  public DeliveryResponseType deliverInvoice (@Nonnull final byte [] aInvoiceBytes,
+                                              @Nullable final List <DeliveryEmbeddedAttachmentType> aAttachments,
+                                              @Nonnull final DeliverySettingsType aSettings)
+  {
+    ValueEnforcer.notNull (aInvoiceBytes, "InvoiceBytes");
+    ValueEnforcer.notNull (aSettings, "Settings");
+
+    // Some debug output
+    WSHelper.enableSoapLogging (isDebugMode ());
 
     // Prepare document
     final DeliveryType aDelivery = new DeliveryType ();
