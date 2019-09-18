@@ -43,6 +43,13 @@ public final class WS200SenderTest
   private static final String USP_WS_USERNAME = "xx";
   private static final String USP_WS_PASSWORD = "yy";
 
+  @Test
+  public void testURLs ()
+  {
+    assertNotNull (WS200Sender.ENDPOINT_URL_PRODUCTION);
+    assertNotNull (WS200Sender.ENDPOINT_URL_TEST);
+  }
+
   /**
    * Basic test case. It is ignored by default, since no test username and
    * password are present. After setting {@link #USP_WS_USERNAME} and
