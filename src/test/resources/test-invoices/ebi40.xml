@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2014-2019 Philip Helger (www.helger.com)
+    Copyright (C) 2019-2019 Philip Helger (www.helger.com)
     philip[at]helger[dot]com
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,16 +19,17 @@
 -->
 <eb:Invoice xmlns:eb="http://www.ebinterface.at/schema/4p0/" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.ebinterface.at/schema/4p0/ http://www.ebinterface.at/schema/4p0/Invoice.xsd"
   eb:GeneratingSystem="none" eb:DocumentType="Invoice" eb:InvoiceCurrency="EUR">
-  <eb:InvoiceNumber>erechnung-webservice-client-test-file</eb:InvoiceNumber>
-  <eb:InvoiceDate>2014-01-01</eb:InvoiceDate>
+  <!-- Max. 35 chars in ebi 4.0 -->
+  <eb:InvoiceNumber>erechnung-webservice-client-test-1</eb:InvoiceNumber>
+  <eb:InvoiceDate>2019-01-01</eb:InvoiceDate>
   <eb:Delivery>
-    <eb:Date>2013-02-28</eb:Date>
+    <eb:Date>2019-02-28</eb:Date>
   </eb:Delivery>
   <eb:Biller>
-    <eb:VATIdentificationNumber>ATU51507409</eb:VATIdentificationNumber>
-    <eb:InvoiceRecipientsBillerID>0011025781</eb:InvoiceRecipientsBillerID>
+    <eb:VATIdentificationNumber>ATU00000006</eb:VATIdentificationNumber>
+    <!-- Lieferantennummer -->
+    <eb:InvoiceRecipientsBillerID>1234567890</eb:InvoiceRecipientsBillerID>
     <eb:Address>
       <eb:Name>Schrauben Willi</eb:Name>
       <eb:Street>Lassallestraße 5</eb:Street>
@@ -39,11 +40,12 @@
     </eb:Address>
   </eb:Biller>
   <eb:InvoiceRecipient>
-    <eb:VATIdentificationNumber>ATU12345678</eb:VATIdentificationNumber>
+    <eb:VATIdentificationNumber>ATU00000006</eb:VATIdentificationNumber>
     <eb:BillersInvoiceRecipientID>BIR4567</eb:BillersInvoiceRecipientID>
     <eb:OrderReference>
-      <eb:OrderID>Z01:external reference</eb:OrderID>
-      <eb:ReferenceDate>2009-09-01</eb:ReferenceDate>
+      <!-- Auftragsreferenz -->
+      <eb:OrderID>Z01:external-reference</eb:OrderID>
+      <eb:ReferenceDate>2019-09-01</eb:ReferenceDate>
     </eb:OrderReference>
     <eb:Address>
       <eb:Name>Mustermann GmbH</eb:Name>
