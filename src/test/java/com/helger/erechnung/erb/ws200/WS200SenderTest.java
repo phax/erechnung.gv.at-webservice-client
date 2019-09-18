@@ -25,6 +25,8 @@ import org.junit.Test;
 import org.w3c.dom.Node;
 
 import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.commons.io.stream.StreamHelper;
+import com.helger.xml.namespace.MapBasedNamespaceContext;
 import com.helger.xml.serialize.read.DOMReader;
 
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryEmbeddedAttachmentType;
@@ -52,7 +54,7 @@ public final class WS200SenderTest
    */
   @Test
   @Ignore
-  public void testDeliverInvoice1 ()
+  public void testDeliverInvoiceViaDOMNode ()
   {
     final Node aXMLDocument = DOMReader.readXMLDOM (new ClassPathResource ("test-invoices/ebi40.xml"));
     assertNotNull ("Failed to read example invoice", aXMLDocument);
@@ -60,6 +62,16 @@ public final class WS200SenderTest
     final WS200Sender aSender = new WS200Sender (USP_WS_USERNAME, USP_WS_PASSWORD);
     aSender.setDebugMode (true);
     aSender.setTestVersion (true);
+    // Send to test system?
+    if (false)
+      aSender.setURL (WS200Sender.ENDPOINT_URL_TEST);
+
+    // Namespace mapping is required for ebInterface 4.x
+    final MapBasedNamespaceContext aNSCtx = new MapBasedNamespaceContext ();
+    aNSCtx.addMapping ("eb", "http://www.ebinterface.at/schema/4p0/");
+    aNSCtx.addMapping ("dsig", "http://www.w3.org/2000/09/xmldsig#");
+    aNSCtx.addMapping ("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+    aSender.setNamespaceContext (aNSCtx);
 
     // No attachments
     final List <DeliveryEmbeddedAttachmentType> aAttachments = null;
@@ -70,6 +82,41 @@ public final class WS200SenderTest
 
     // Deliver it
     final DeliveryResponseType aResult = aSender.deliverInvoice (aXMLDocument, aAttachments, aSettings);
+    assertNotNull (aResult.toString (), aResult.getSuccess ());
+  }
+
+  /**
+   * Basic test case. It is ignored by default, since no test username and
+   * password are present. After setting {@link #USP_WS_USERNAME} and
+   * {@link #USP_WS_PASSWORD} constants in this class, this test can be
+   * "un-ignored".
+   *
+   * @throws SAXException
+   *         in case XML reading fails
+   */
+  @Test
+  @Ignore
+  public void testDeliverInvoiceViaByteArray ()
+  {
+    final byte [] aXMLBytes = StreamHelper.getAllBytes (new ClassPathResource ("test-invoices/ebi40.xml"));
+    assertNotNull ("Failed to read example invoice", aXMLBytes);
+
+    final WS200Sender aSender = new WS200Sender (USP_WS_USERNAME, USP_WS_PASSWORD);
+    aSender.setDebugMode (true);
+    aSender.setTestVersion (true);
+    // Send to test system
+    if (false)
+      aSender.setURL (WS200Sender.ENDPOINT_URL_TEST);
+
+    // No attachments
+    final List <DeliveryEmbeddedAttachmentType> aAttachments = null;
+
+    final DeliverySettingsType aSettings = new DeliverySettingsType ();
+    // Perform only technical validation
+    aSettings.setTest (Boolean.TRUE);
+
+    // Deliver it
+    final DeliveryResponseType aResult = aSender.deliverInvoice (aXMLBytes, aAttachments, aSettings);
     assertNotNull (aResult.toString (), aResult.getSuccess ());
   }
 }
