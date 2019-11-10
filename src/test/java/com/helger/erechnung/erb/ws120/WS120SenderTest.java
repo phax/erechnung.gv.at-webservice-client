@@ -52,12 +52,9 @@ public final class WS120SenderTest
 
   /**
    * Basic test case. It is ignored by default, since no test username and
-   * password are present. After setting {@link #USP_WS_USERNAME} and
-   * {@link #USP_WS_PASSWORD} constants in this class, this test can be
+   * password are present. After setting {@code USP_WS_USERNAME} and
+   * {@code USP_WS_PASSWORD} constants in this class, this test can be
    * "un-ignored".
-   *
-   * @throws SAXException
-   *         in case XML reading fails
    */
   @Test
   @Ignore
@@ -94,12 +91,9 @@ public final class WS120SenderTest
 
   /**
    * Basic test case. It is ignored by default, since no test username and
-   * password are present. After setting {@link #USP_WS_USERNAME} and
-   * {@link #USP_WS_PASSWORD} constants in this class, this test can be
+   * password are present. After setting {@code USP_WS_USERNAME} and
+   * {@code USP_WS_PASSWORD} constants in this class, this test can be
    * "un-ignored".
-   *
-   * @throws SAXException
-   *         in case XML reading fails
    */
   @Test
   @Ignore

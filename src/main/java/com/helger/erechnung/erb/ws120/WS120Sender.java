@@ -111,7 +111,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
    *        Client config to be modified. May not be <code>null</code>.
    */
   @OverrideOnDemand
-  protected void modifyWSClientConfig (@SuppressWarnings ("unused") @Nonnull final WSClientConfig aWSClientConfig)
+  protected void modifyWSClientConfig (@Nonnull final WSClientConfig aWSClientConfig)
   {}
 
   /**
