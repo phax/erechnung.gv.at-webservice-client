@@ -68,8 +68,8 @@ public class SOAPAddWSSEHeaderHandler implements SOAPHandler <SOAPMessageContext
   }
 
   /**
-   * @return The USP web service password as specified in the constructor. Neither
-   *         <code>null</code> nor empty.
+   * @return The USP web service password as specified in the constructor.
+   *         Neither <code>null</code> nor empty.
    */
   @Nonnull
   @Nonempty
