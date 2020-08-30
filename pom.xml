@@ -26,10 +26,10 @@
   </parent>
   <groupId>com.helger.erechnung.gv.at</groupId>
   <artifactId>webservice-client</artifactId>
-  <version>3.1.1-SNAPSHOT</version>
+  <version>3.2.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>webservice-client</name>
-  <description>Utility library that provides support for sending eInvoices to the Austrian Government (ER&gt;B) by using the Webservice interface</description>
+  <description>Utility library that provides support for sending eInvoices to the Austrian Government (e-Rechnung.gv.at) by using the Webservice interface</description>
   <url>https://github.com/phax/erechnung.gv.at-webservice-client</url>
   <inceptionYear>2014</inceptionYear>
 
@@ -78,7 +78,7 @@
       <dependency>
         <groupId>com.helger</groupId>
         <artifactId>ph-commons-parent-pom</artifactId>
-        <version>9.4.6</version>
+        <version>9.4.7</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -93,6 +93,10 @@
     <dependency>
       <groupId>com.helger</groupId>
       <artifactId>ph-xml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.helger</groupId>
+      <artifactId>ph-jaxb</artifactId>
     </dependency>
     <dependency>
       <groupId>com.helger</groupId>
@@ -188,6 +192,10 @@
           </execution>
         </executions>
         <configuration>
+          <bindingDirectory>src/main/jaxb</bindingDirectory>
+          <bindingFiles>
+            <bindingFile>bindings.xjb</bindingFile>
+          </bindingFiles>
           <wsdlDirectory>src/main/resources/WEB-INF/wsdl</wsdlDirectory>
           <xnocompile>true</xnocompile>
           <args>
