@@ -62,17 +62,6 @@
     </developer>
   </developers>
 
-  <properties>
-    <jaxws-plugin.group>com.sun.xml.ws</jaxws-plugin.group>
-    <jaxws-plugin.version>2.3.3</jaxws-plugin.version>
-    <!--
-    <jaxws-plugin.group>org.codehaus.mojo</jaxws-plugin.group>
-    <jaxws-plugin.version>2.5</jaxws-plugin.version>
-    <jaxws-plugin.group>com.helger.maven</jaxws-plugin.group>
-    <jaxws-plugin.version>2.6.2</jaxws-plugin.version>
-    -->
-  </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -150,9 +139,9 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>${jaxws-plugin.group}</groupId>
+        <groupId>com.sun.xml.ws</groupId>
         <artifactId>jaxws-maven-plugin</artifactId>
-        <version>${jaxws-plugin.version}</version>
+        <version>2.3.3</version>
         <executions>
           <execution>
             <id>wsimport120</id>
