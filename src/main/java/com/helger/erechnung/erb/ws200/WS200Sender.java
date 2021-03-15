@@ -16,6 +16,7 @@
  */
 package com.helger.erechnung.erb.ws200;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.OverrideOnDemand;
 import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.url.URLHelper;
+import com.helger.commons.exception.InitializationException;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
 import com.helger.wsclient.WSClientConfig;
@@ -62,8 +63,21 @@ import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryService;
 @NotThreadSafe
 public class WS200Sender extends AbstractWSSender <WS200Sender>
 {
-  public static final URL ENDPOINT_URL_PRODUCTION = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb/V2");
-  public static final URL ENDPOINT_URL_TEST = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb.test/V2");
+  public static final URL ENDPOINT_URL_PRODUCTION;
+  public static final URL ENDPOINT_URL_TEST;
+
+  static
+  {
+    try
+    {
+      ENDPOINT_URL_PRODUCTION = new URL ("https://txm.portal.at/at.gv.bmf.erb/V2");
+      ENDPOINT_URL_TEST = new URL ("https://txm.portal.at/at.gv.bmf.erb.test/V2");
+    }
+    catch (final MalformedURLException ex)
+    {
+      throw new InitializationException ("Failed to init URL", ex);
+    }
+  }
 
   // Logger to use
   private static final Logger LOGGER = LoggerFactory.getLogger (WS200Sender.class);
@@ -71,8 +85,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   // Default endpoint is production
   private URL m_aURL = ENDPOINT_URL_PRODUCTION;
 
-  public WS200Sender (@Nonnull @Nonempty final String sWebserviceUsername,
-                      @Nonnull @Nonempty final String sWebservicePassword)
+  public WS200Sender (@Nonnull @Nonempty final String sWebserviceUsername, @Nonnull @Nonempty final String sWebservicePassword)
   {
     super (sWebserviceUsername, sWebservicePassword);
   }
@@ -98,8 +111,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
   }
 
   @Nonnull
-  private static DeliveryResponseType _createError (@Nonnull final String sField,
-                                                    @Nonnull final List <String> aMessages)
+  private static DeliveryResponseType _createError (@Nonnull final String sField, @Nonnull final List <String> aMessages)
   {
     final DeliveryResponseType ret = new DeliveryResponseType ();
     final DeliveryErrorType aError = new DeliveryErrorType ();
@@ -153,8 +165,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
     ValueEnforcer.notNull (aSettings, "Settings");
 
     // Convert XML node to a byte array
-    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ())
-                                                           .setNamespaceContext (getNamespaceContext ());
+    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ()).setNamespaceContext (getNamespaceContext ());
     final byte [] aInvoiceBytes = XMLWriter.getNodeAsBytes (aOriginalInvoice, aXWS);
     if (aInvoiceBytes == null)
     {
@@ -231,8 +242,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
         aWSClientConfig.setHostnameVerifierTrustAll ();
 
       // Ensure the WSSE headers are added using our handler
-      aWSClientConfig.handlers ()
-                     .add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
+      aWSClientConfig.handlers ().add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
 
       // Customizing callback
       modifyWSClientConfig (aWSClientConfig);
@@ -250,8 +260,7 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
     {
       LOGGER.error ("Error uploading the document to ER>B Webservice 2.0!", ex);
       return _createError ("document",
-                           ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage ()
-                                                      : new CommonsArrayList <> (ex.getMessage ()));
+                           ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : new CommonsArrayList <> (ex.getMessage ()));
     }
     catch (final WebServiceException ex)
     {

@@ -16,6 +16,7 @@
  */
 package com.helger.erechnung.erb.ws120;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import org.w3c.dom.Node;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.annotation.OverrideOnDemand;
-import com.helger.commons.url.URLHelper;
+import com.helger.commons.exception.InitializationException;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
 import com.helger.wsclient.WSClientConfig;
@@ -61,16 +62,28 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
 @NotThreadSafe
 public class WS120Sender extends AbstractWSSender <WS120Sender>
 {
-  public static final URL ENDPOINT_URL_PRODUCTION = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb/V1");
-  public static final URL ENDPOINT_URL_TEST = URLHelper.getAsURL ("https://txm.portal.at/at.gv.bmf.erb.test/V1");
+  public static final URL ENDPOINT_URL_PRODUCTION;
+  public static final URL ENDPOINT_URL_TEST;
+
+  static
+  {
+    try
+    {
+      ENDPOINT_URL_PRODUCTION = new URL ("https://txm.portal.at/at.gv.bmf.erb/V1");
+      ENDPOINT_URL_TEST = new URL ("https://txm.portal.at/at.gv.bmf.erb.test/V1");
+    }
+    catch (final MalformedURLException ex)
+    {
+      throw new InitializationException ("Failed to init URL", ex);
+    }
+  }
 
   // Logger to use
   private static final Logger LOGGER = LoggerFactory.getLogger (WS120Sender.class);
 
   private URL m_aURL = ENDPOINT_URL_PRODUCTION;
 
-  public WS120Sender (@Nonnull @Nonempty final String sWebserviceUsername,
-                      @Nonnull @Nonempty final String sWebservicePassword)
+  public WS120Sender (@Nonnull @Nonempty final String sWebserviceUsername, @Nonnull @Nonempty final String sWebservicePassword)
   {
     super (sWebserviceUsername, sWebservicePassword);
   }
@@ -143,8 +156,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     ValueEnforcer.notNull (aSettings, "Settings");
 
     // Convert XML node to a byte array
-    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ())
-                                                           .setNamespaceContext (getNamespaceContext ());
+    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ()).setNamespaceContext (getNamespaceContext ());
     final byte [] aInvoiceBytes = XMLWriter.getNodeAsBytes (aOriginalInvoice, aXWS);
     if (aInvoiceBytes == null)
     {
@@ -209,8 +221,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
         aWSClientConfig.setHostnameVerifierTrustAll ();
 
       // Ensure the WSSE headers are added using our handler
-      aWSClientConfig.handlers ()
-                     .add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
+      aWSClientConfig.handlers ().add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
 
       // Customizing callback
       modifyWSClientConfig (aWSClientConfig);
@@ -227,8 +238,7 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     catch (final UploadException ex)
     {
       LOGGER.error ("Error uploading the document to ER>B Webservice 1.2!", ex);
-      return _createError ("document",
-                           ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
+      return _createError ("document", ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
     }
     catch (final WebServiceException ex)
     {
