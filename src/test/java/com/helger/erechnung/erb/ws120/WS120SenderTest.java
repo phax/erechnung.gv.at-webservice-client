@@ -59,6 +59,7 @@ public final class WS120SenderTest
     final WS120Sender aSender = new WS120Sender (USP_WS_USERNAME, USP_WS_PASSWORD);
     aSender.setDebugMode (true);
     aSender.setTestVersion (true);
+
     // Send to test system?
     if (false)
       aSender.setURL (WS120Sender.ENDPOINT_URL_TEST);
