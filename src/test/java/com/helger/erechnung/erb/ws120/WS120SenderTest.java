@@ -26,6 +26,7 @@ import org.w3c.dom.Node;
 
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.commons.io.stream.StreamHelper;
+import com.helger.config.ConfigFactory;
 import com.helger.xml.namespace.MapBasedNamespaceContext;
 import com.helger.xml.serialize.read.DOMReader;
 
@@ -40,14 +41,14 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
  */
 public final class WS120SenderTest
 {
-  private static final String USP_WS_USERNAME = "xx";
-  private static final String USP_WS_PASSWORD = "yy";
+  // See src/test/resources/application.properties
+  private static final String USP_WS_USERNAME = ConfigFactory.getDefaultConfig ().getAsString ("ws.username");
+  private static final String USP_WS_PASSWORD = ConfigFactory.getDefaultConfig ().getAsString ("ws.password");
 
   /**
    * Basic test case. It is ignored by default, since no test username and
-   * password are present. After setting {@code USP_WS_USERNAME} and
-   * {@code USP_WS_PASSWORD} constants in this class, this test can be
-   * "un-ignored".
+   * password are present. After setting the properties in the
+   * "application.properties" file, this test can be "un-ignored".
    */
   @Test
   @Ignore
@@ -85,9 +86,8 @@ public final class WS120SenderTest
 
   /**
    * Basic test case. It is ignored by default, since no test username and
-   * password are present. After setting {@code USP_WS_USERNAME} and
-   * {@code USP_WS_PASSWORD} constants in this class, this test can be
-   * "un-ignored".
+   * password are present. After setting the properties in the
+   * "application.properties" file, this test can be "un-ignored".
    */
   @Test
   @Ignore
