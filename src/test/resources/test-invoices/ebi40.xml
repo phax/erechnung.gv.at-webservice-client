@@ -17,14 +17,14 @@
     limitations under the License.
 
 -->
-<eb:Invoice xmlns:eb="http://www.ebinterface.at/schema/4p0/" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"
+<eb:Invoice xmlns:eb="http://www.ebinterface.at/schema/4p0/"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   eb:GeneratingSystem="none" eb:DocumentType="Invoice" eb:InvoiceCurrency="EUR">
   <!-- Max. 35 chars in ebi 4.0 -->
   <eb:InvoiceNumber>erechnung-webservice-client-test-1</eb:InvoiceNumber>
-  <eb:InvoiceDate>2019-01-01</eb:InvoiceDate>
+  <eb:InvoiceDate>2021-01-01</eb:InvoiceDate>
   <eb:Delivery>
-    <eb:Date>2019-02-28</eb:Date>
+    <eb:Date>2021-02-28</eb:Date>
   </eb:Delivery>
   <eb:Biller>
     <eb:VATIdentificationNumber>ATU00000006</eb:VATIdentificationNumber>
@@ -45,7 +45,7 @@
     <eb:OrderReference>
       <!-- Auftragsreferenz -->
       <eb:OrderID>Z01:external-reference</eb:OrderID>
-      <eb:ReferenceDate>2019-09-01</eb:ReferenceDate>
+      <eb:ReferenceDate>2021-09-01</eb:ReferenceDate>
     </eb:OrderReference>
     <eb:Address>
       <eb:Name>Mustermann GmbH</eb:Name>
