@@ -37,13 +37,11 @@ import com.helger.xml.namespace.INamespaceContext;
  *        The real implementation type
  */
 @NotThreadSafe
-public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>> implements
-                                       IGenericImplTrait <IMPLTYPE>
+public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>> implements IGenericImplTrait <IMPLTYPE>
 {
   // Default encoding according to XSD
   public static final Charset DEFAULT_INVOICE_ENCODING = StandardCharsets.UTF_8;
   public static final boolean DEFAULT_DEBUG = false;
-  public static final boolean DEFAULT_TEST_VERSION = false;
   public static final boolean DEFAULT_TRUST_ALL_CERTIFICATES = false;
   public static final boolean DEFAULT_TRUST_ALL_HOSTNAMES = false;
 
@@ -51,13 +49,11 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   private final String m_sWebservicePassword;
   private Charset m_aInvoiceEncoding = DEFAULT_INVOICE_ENCODING;
   private boolean m_bDebugMode = DEFAULT_DEBUG;
-  private boolean m_bTestVersion = DEFAULT_TEST_VERSION;
   private boolean m_bTrustAllCertificates = DEFAULT_TRUST_ALL_CERTIFICATES;
   private boolean m_bTrustAllHostnames = DEFAULT_TRUST_ALL_HOSTNAMES;
   private INamespaceContext m_aNSCtx;
 
-  public AbstractWSSender (@Nonnull @Nonempty final String sWebserviceUsername,
-                           @Nonnull @Nonempty final String sWebservicePassword)
+  public AbstractWSSender (@Nonnull @Nonempty final String sWebserviceUsername, @Nonnull @Nonempty final String sWebservicePassword)
   {
     m_sWebserviceUsername = ValueEnforcer.notEmpty (sWebserviceUsername, "Webservice Username");
     m_sWebservicePassword = ValueEnforcer.notEmpty (sWebservicePassword, "Webservice Password");
@@ -133,34 +129,6 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   public final IMPLTYPE setDebugMode (final boolean bDebugMode)
   {
     m_bDebugMode = bDebugMode;
-    return thisAsT ();
-  }
-
-  /**
-   * @return <code>true</code> if the Webservice of the test version should be
-   *         invoked, <code>false</code> if the Webservice of the production
-   *         version should be invoked. Please note that to invoke the test
-   *         version, the appropriate access right in the USP must be assigned.
-   *         The default value is {@link #DEFAULT_TEST_VERSION}.
-   */
-  public final boolean isTestVersion ()
-  {
-    return m_bTestVersion;
-  }
-
-  /**
-   * Change whether the test Webservice or the production Webservice should be
-   * invoked. The default value is {@link #DEFAULT_TEST_VERSION}.
-   *
-   * @param bTestVersion
-   *        <code>true</code> to invoke the test Webservice, <code>false</code>
-   *        to invoke the production Webservice.
-   * @return this
-   */
-  @Nonnull
-  public final IMPLTYPE setTestVersion (final boolean bTestVersion)
-  {
-    m_bTestVersion = bTestVersion;
     return thisAsT ();
   }
 
@@ -246,7 +214,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   /**
    * Set the namespace context to be used. This is only used, if a conversion
    * from DOMNode to a byte array is performed.
-   * 
+   *
    * @param aNSCtx
    *        The namespace context to be used. May be <code>null</code>.
    * @return this for chaining
@@ -265,7 +233,6 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
                                        .appendPassword ("webservicePassword")
                                        .append ("invoiceEncoding", m_aInvoiceEncoding)
                                        .append ("debugMode", m_bDebugMode)
-                                       .append ("testVersion", m_bTestVersion)
                                        .append ("trustAllCertificates", m_bTrustAllCertificates)
                                        .append ("trustAllHostnames", m_bTrustAllHostnames)
                                        .append ("NSCtx", m_aNSCtx)

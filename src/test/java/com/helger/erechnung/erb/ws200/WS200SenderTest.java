@@ -59,7 +59,6 @@ public final class WS200SenderTest
 
     final WS200Sender aSender = new WS200Sender (USP_WS_USERNAME, USP_WS_PASSWORD);
     aSender.setDebugMode (true);
-    aSender.setTestVersion (true);
 
     // Send to test system?
     if (false)
@@ -98,7 +97,6 @@ public final class WS200SenderTest
 
     final WS200Sender aSender = new WS200Sender (USP_WS_USERNAME, USP_WS_PASSWORD);
     aSender.setDebugMode (true);
-    aSender.setTestVersion (true);
 
     // Send to test system
     if (false)
