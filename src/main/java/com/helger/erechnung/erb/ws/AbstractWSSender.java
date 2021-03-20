@@ -22,12 +22,12 @@ import java.nio.charset.StandardCharsets;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
+import javax.xml.namespace.NamespaceContext;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.commons.traits.IGenericImplTrait;
-import com.helger.xml.namespace.INamespaceContext;
 
 /**
  * Abstract base class for for the e-Rechnung.gv.at Webservice wrapper.
@@ -37,7 +37,8 @@ import com.helger.xml.namespace.INamespaceContext;
  *        The real implementation type
  */
 @NotThreadSafe
-public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>> implements IGenericImplTrait <IMPLTYPE>
+public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLTYPE>> implements
+                                       IGenericImplTrait <IMPLTYPE>
 {
   // Default encoding according to XSD
   public static final Charset DEFAULT_INVOICE_ENCODING = StandardCharsets.UTF_8;
@@ -51,9 +52,10 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   private boolean m_bDebugMode = DEFAULT_DEBUG;
   private boolean m_bTrustAllCertificates = DEFAULT_TRUST_ALL_CERTIFICATES;
   private boolean m_bTrustAllHostnames = DEFAULT_TRUST_ALL_HOSTNAMES;
-  private INamespaceContext m_aNSCtx;
+  private NamespaceContext m_aNSCtx;
 
-  public AbstractWSSender (@Nonnull @Nonempty final String sWebserviceUsername, @Nonnull @Nonempty final String sWebservicePassword)
+  public AbstractWSSender (@Nonnull @Nonempty final String sWebserviceUsername,
+                           @Nonnull @Nonempty final String sWebservicePassword)
   {
     m_sWebserviceUsername = ValueEnforcer.notEmpty (sWebserviceUsername, "Webservice Username");
     m_sWebservicePassword = ValueEnforcer.notEmpty (sWebservicePassword, "Webservice Password");
@@ -206,7 +208,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    *         URL). May be <code>null</code>.
    */
   @Nullable
-  public final INamespaceContext getNamespaceContext ()
+  public final NamespaceContext getNamespaceContext ()
   {
     return m_aNSCtx;
   }
@@ -220,7 +222,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * @return this for chaining
    */
   @Nonnull
-  public final IMPLTYPE setNamespaceContext (@Nullable final INamespaceContext aNSCtx)
+  public final IMPLTYPE setNamespaceContext (@Nullable final NamespaceContext aNSCtx)
   {
     m_aNSCtx = aNSCtx;
     return thisAsT ();
