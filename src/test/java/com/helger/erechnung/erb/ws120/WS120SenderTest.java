@@ -54,7 +54,7 @@ public final class WS120SenderTest
   @Ignore
   public void testDeliverInvoiceViaDOMNode ()
   {
-    final Node aXMLDocument = DOMReader.readXMLDOM (new ClassPathResource ("test-invoices/ebi40.xml"));
+    final Node aXMLDocument = DOMReader.readXMLDOM (new ClassPathResource ("test-invoices/ebi60.xml"));
     assertNotNull ("Failed to read example invoice", aXMLDocument);
 
     final WS120Sender aSender = new WS120Sender (USP_WS_USERNAME, USP_WS_PASSWORD);
@@ -92,7 +92,7 @@ public final class WS120SenderTest
   @Ignore
   public void testDeliverInvoiceViaByteArray ()
   {
-    final byte [] aXMLBytes = StreamHelper.getAllBytes (new ClassPathResource ("test-invoices/ebi40.xml"));
+    final byte [] aXMLBytes = StreamHelper.getAllBytes (new ClassPathResource ("test-invoices/ebi60.xml"));
     assertNotNull ("Failed to read example invoice", aXMLBytes);
 
     final WS120Sender aSender = new WS120Sender (USP_WS_USERNAME, USP_WS_PASSWORD);

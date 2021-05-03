@@ -54,14 +54,14 @@ public final class WS200SenderTest
   @Ignore
   public void testDeliverInvoiceViaDOMNode ()
   {
-    final Node aXMLDocument = DOMReader.readXMLDOM (new ClassPathResource ("test-invoices/ebi40.xml"));
+    final Node aXMLDocument = DOMReader.readXMLDOM (new ClassPathResource ("test-invoices/ebi60.xml"));
     assertNotNull ("Failed to read example invoice", aXMLDocument);
 
     final WS200Sender aSender = new WS200Sender (USP_WS_USERNAME, USP_WS_PASSWORD);
     aSender.setDebugMode (true);
 
     // Send to test system?
-    if (false)
+    if (true)
       aSender.setURL (WS200Sender.ENDPOINT_URL_TEST);
 
     // Namespace mapping is required for ebInterface 4.x
@@ -92,14 +92,14 @@ public final class WS200SenderTest
   @Ignore
   public void testDeliverInvoiceViaByteArray ()
   {
-    final byte [] aXMLBytes = StreamHelper.getAllBytes (new ClassPathResource ("test-invoices/ebi40.xml"));
+    final byte [] aXMLBytes = StreamHelper.getAllBytes (new ClassPathResource ("test-invoices/ebi60.xml"));
     assertNotNull ("Failed to read example invoice", aXMLBytes);
 
     final WS200Sender aSender = new WS200Sender (USP_WS_USERNAME, USP_WS_PASSWORD);
     aSender.setDebugMode (true);
 
     // Send to test system
-    if (false)
+    if (true)
       aSender.setURL (WS200Sender.ENDPOINT_URL_TEST);
 
     // No attachments
