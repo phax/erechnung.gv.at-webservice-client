@@ -26,7 +26,7 @@
   </parent>
   <groupId>com.helger.erechnung.gv.at</groupId>
   <artifactId>webservice-client</artifactId>
-  <version>3.2.3-SNAPSHOT</version>
+  <version>3.2.3</version>
   <packaging>bundle</packaging>
   <name>webservice-client</name>
   <description>Utility library that provides support for sending eInvoices to the Austrian Government (e-Rechnung.gv.at) by using the Webservice interface</description>
@@ -45,7 +45,7 @@
     <connection>scm:git:git@github.com:phax/erechnung.gv.at-webservice-client.git</connection>
     <developerConnection>scm:git:git@github.com:phax/erechnung.gv.at-webservice-client.git</developerConnection>
     <url>http://github.com/phax/erechnung.gv.at-webservice-client</url>
-    <tag>HEAD</tag>
+    <tag>webservice-client-3.2.3</tag>
   </scm>
 
   <organization>
