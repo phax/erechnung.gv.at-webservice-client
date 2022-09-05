@@ -23,8 +23,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.WebServiceException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +49,8 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeError;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetail;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetails;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.WebServiceException;
 
 /**
  * A wrapper for invoking the Webservice 1.2 for e-Rechnung.gv.at. The technical

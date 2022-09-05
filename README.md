@@ -24,6 +24,11 @@ When importing this project into Eclipse, please ensure to run `mvn generate-sou
 the JAXB classes required. They reside in `target/generated-sources/wsimport` and must be part of the
 compilation.
 
+# News and Noteworthy
+
+Version 4.0.0 uses Jakarta JAX-WS 4.0 as the baseline and requires at least Java 11
+
+
 ---
 
 My personal [Coding Styleguide](https://github.com/phax/meta/blob/master/CodingStyleguide.md) |

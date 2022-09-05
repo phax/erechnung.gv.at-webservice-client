@@ -21,17 +21,18 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.handler.soap.SOAPHandler;
-import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.CodingStyleguideUnaware;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.string.ToStringGenerator;
+
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.handler.soap.SOAPHandler;
+import jakarta.xml.ws.handler.soap.SOAPMessageContext;
 
 /**
  * A special SOAP handler that adds the WS Security headers for the
@@ -103,13 +104,9 @@ public class SOAPAddWSSEHeaderHandler implements SOAPHandler <SOAPMessageContext
 
         // Add the WSSE stuff
         final SOAPElement aSecurity = aHeader.addChildElement (new QName (WSSE_NSURI, "Security", WSSE_PREFIX));
-        final SOAPElement aUsernameToken = aSecurity.addChildElement (new QName (WSSE_NSURI,
-                                                                                 "UsernameToken",
-                                                                                 WSSE_PREFIX));
-        aUsernameToken.addChildElement (new QName (WSSE_NSURI, "Username", WSSE_PREFIX))
-                      .addTextNode (m_sUSPWebserviceUsername);
-        aUsernameToken.addChildElement (new QName (WSSE_NSURI, "Password", WSSE_PREFIX))
-                      .addTextNode (m_sUSPWebservicePassword);
+        final SOAPElement aUsernameToken = aSecurity.addChildElement (new QName (WSSE_NSURI, "UsernameToken", WSSE_PREFIX));
+        aUsernameToken.addChildElement (new QName (WSSE_NSURI, "Username", WSSE_PREFIX)).addTextNode (m_sUSPWebserviceUsername);
+        aUsernameToken.addChildElement (new QName (WSSE_NSURI, "Password", WSSE_PREFIX)).addTextNode (m_sUSPWebservicePassword);
       }
       catch (final Exception ex)
       {

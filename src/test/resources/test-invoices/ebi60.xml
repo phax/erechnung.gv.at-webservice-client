@@ -24,9 +24,9 @@
          DocumentTitle="Testrechnung ph-ebinterface" 
          Language="de">
 	<InvoiceNumber>RNR 4712</InvoiceNumber>
-	<InvoiceDate>2021-01-12</InvoiceDate>
+	<InvoiceDate>2022-01-12</InvoiceDate>
   <Delivery>
-    <Date>2021-02-15</Date>
+    <Date>2022-02-15</Date>
   </Delivery>
 	<Biller>
 		<VATIdentificationNumber>ATU00000006</VATIdentificationNumber>
@@ -35,7 +35,7 @@
 			<Street>Favoritenstraße 329/32</Street>
 			<POBox>4711</POBox>
 			<Town>Wien</Town>
-			<ZIP>1040</ZIP>
+			<ZIP>1040</ZIP>  
 			<Country CountryCode="AT">Österreich</Country>
 			<Phone>+43 1 58801 8857452</Phone>
 			<Email>test@test.at</Email>
@@ -44,7 +44,7 @@
 			<Salutation>Herr</Salutation>
 			<Name>Max Mustermann</Name>
 		</Contact>
-        <!-- Lieferantennummer -->
+    <!-- Lieferantennummer -->
 		<InvoiceRecipientsBillerID>1234567890</InvoiceRecipientsBillerID>
 	</Biller>
 	<InvoiceRecipient>
@@ -104,6 +104,6 @@
 		</UniversalBankTransaction>
 	</PaymentMethod>
 	<PaymentConditions>
-		<DueDate>2021-08-13</DueDate>
+		<DueDate>2022-12-31</DueDate>
 	</PaymentConditions>
 </Invoice>
