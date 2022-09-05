@@ -64,11 +64,9 @@ public final class WS120SenderTest
     if (false)
       aSender.setURL (WS120Sender.ENDPOINT_URL_TEST);
 
-    // Namespace mapping is required for ebInterface 4.x
     final MapBasedNamespaceContext aNSCtx = new MapBasedNamespaceContext ();
-    aNSCtx.addMapping ("eb", "http://www.ebinterface.at/schema/4p0/");
-    aNSCtx.addMapping ("dsig", "http://www.w3.org/2000/09/xmldsig#");
-    aNSCtx.addMapping ("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+    aNSCtx.addMapping ("eb", "http://www.ebinterface.at/schema/6p0/");
+    aNSCtx.addMapping ("ds", "http://www.w3.org/2000/09/xmldsig#");
     aSender.setNamespaceContext (aNSCtx);
 
     // No attachments
