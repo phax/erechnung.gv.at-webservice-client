@@ -14,7 +14,7 @@ Add the following to your pom.xml to use this artifact:
 <dependency>
   <groupId>com.helger.erechnung.gv.at</groupId>
   <artifactId>webservice-client</artifactId>
-  <version>3.2.3</version>
+  <version>4.0.0</version>
 </dependency>
 ```
 
