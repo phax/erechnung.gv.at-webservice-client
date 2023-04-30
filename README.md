@@ -32,4 +32,4 @@ Version 4.0.0 uses Jakarta JAX-WS 4.0 as the baseline and requires at least Java
 ---
 
 My personal [Coding Styleguide](https://github.com/phax/meta/blob/master/CodingStyleguide.md) |
-Kindly supported by [YourKit Java Profiler](https://www.yourkit.com)
+It is appreciated if you star the GitHub project if you like it.
