@@ -151,7 +151,7 @@
       <plugin>
         <groupId>com.sun.xml.ws</groupId>
         <artifactId>jaxws-maven-plugin</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1</version>
         <executions>
           <execution>
             <id>wsimport120</id>
@@ -212,10 +212,6 @@
             <xjcArg>-Xph-list-extension</xjcArg>
             <xjcArg>-Xph-offset-dt-extension</xjcArg>
           </xjcArgs>
-          <!-- Required to work with a JDK 1.8 and/or Maven &gt; 3.0.4 -->
-          <vmArgs>
-            <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-          </vmArgs>
         </configuration>
         <dependencies>
           <dependency>
