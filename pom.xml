@@ -42,8 +42,8 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:phax/erechnung.gv.at-webservice-client.git</connection>
-    <developerConnection>scm:git:git@github.com:phax/erechnung.gv.at-webservice-client.git</developerConnection>
+    <connection>scm:git:https://github.com/phax/erechnung.gv.at-webservice-client.git</connection>
+    <developerConnection>scm:git:https://github.com/phax/erechnung.gv.at-webservice-client.git</developerConnection>
     <url>http://github.com/phax/erechnung.gv.at-webservice-client</url>
     <tag>HEAD</tag>
   </scm>
@@ -151,7 +151,7 @@
       <plugin>
         <groupId>com.sun.xml.ws</groupId>
         <artifactId>jaxws-maven-plugin</artifactId>
-        <version>4.0.1</version>
+        <version>4.0.2</version>
         <executions>
           <execution>
             <id>wsimport120</id>
@@ -217,7 +217,7 @@
           <dependency>
             <groupId>com.helger</groupId>
             <artifactId>ph-jaxb-plugin</artifactId>
-            <version>4.0.2</version>
+            <version>4.0.3</version>
           </dependency>
           <dependency>
             <groupId>com.helger</groupId>
