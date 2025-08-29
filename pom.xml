@@ -26,7 +26,7 @@
   </parent>
   <groupId>com.helger.erechnung.gv.at</groupId>
   <artifactId>webservice-client</artifactId>
-  <version>5.0.1-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>webservice-client</name>
   <description>Utility library that provides support for sending eInvoices to the Austrian Government (e-Rechnung.gv.at) by using the Webservice interface</description>
