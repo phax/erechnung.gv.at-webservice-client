@@ -63,8 +63,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * @return The web service user name as specified in the constructor. Neither
-   *         <code>null</code> nor empty.
+   * @return The web service user name as specified in the constructor. Neither <code>null</code>
+   *         nor empty.
    */
   @Nonnull
   @Nonempty
@@ -74,8 +74,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * @return The web service password as specified in the constructor. Neither
-   *         <code>null</code> nor empty.
+   * @return The web service password as specified in the constructor. Neither <code>null</code> nor
+   *         empty.
    */
   @Nonnull
   @Nonempty
@@ -95,8 +95,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * Set the encoding of the original XML invoice to be used. The default value
-   * is {@link #DEFAULT_INVOICE_ENCODING}.
+   * Set the encoding of the original XML invoice to be used. The default value is
+   * {@link #DEFAULT_INVOICE_ENCODING}.
    *
    * @param aInvoiceEncoding
    *        The new encoding to be used. May not be <code>null</code>.
@@ -111,8 +111,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * @return <code>true</code> if the debug mode is enabled, <code>false</code>
-   *         if not. The default value is {@link #DEFAULT_DEBUG}.
+   * @return <code>true</code> if the debug mode is enabled, <code>false</code> if not. The default
+   *         value is {@link #DEFAULT_DEBUG}.
    */
   public final boolean isDebugMode ()
   {
@@ -120,12 +120,12 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * Change the setting of the debug mode. Enabling the debug mode means, that
-   * the exchanged Webservice messages are logged to stdout.
+   * Change the setting of the debug mode. Enabling the debug mode means, that the exchanged
+   * Webservice messages are logged to stdout.
    *
    * @param bDebugMode
-   *        The new value of the debug flag. <code>true</code> to enable debug
-   *        mode, <code>false</code> to disable it.
+   *        The new value of the debug flag. <code>true</code> to enable debug mode,
+   *        <code>false</code> to disable it.
    * @return this
    */
   @Nonnull
@@ -136,10 +136,9 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * @return <code>true</code> if the Webservice connection trusts all
-   *         certificates and therefore does not check for certificate
-   *         revocation etc. If this is enabled, the security of transmission
-   *         cannot be guaranteed! The default value is
+   * @return <code>true</code> if the Webservice connection trusts all certificates and therefore
+   *         does not check for certificate revocation etc. If this is enabled, the security of
+   *         transmission cannot be guaranteed! The default value is
    *         {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.
    */
   public final boolean isTrustAllCertificates ()
@@ -148,17 +147,15 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * Change whether the the Webservice connection trusts all certificates and
-   * therefore does not check for certificate revocation etc. If this is
-   * enabled, the security of transmission cannot be guaranteed! The default
-   * value is {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.<br>
+   * Change whether the the Webservice connection trusts all certificates and therefore does not
+   * check for certificate revocation etc. If this is enabled, the security of transmission cannot
+   * be guaranteed! The default value is {@link #DEFAULT_TRUST_ALL_CERTIFICATES}.<br>
    * Internally a special {@link javax.net.ssl.SSLContext} with a
-   * {@link com.helger.commons.ws.TrustManagerTrustAll} is created.
+   * com.helger.commons.ws.TrustManagerTrustAll is created.
    *
    * @param bTrustAllCertificates
-   *        <code>true</code> to lower the security level and disable the
-   *        certificate check, or <code>false</code> to enable the certificate
-   *        check.
+   *        <code>true</code> to lower the security level and disable the certificate check, or
+   *        <code>false</code> to enable the certificate check.
    * @return this
    */
   @Nonnull
@@ -169,13 +166,11 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * @return <code>true</code> if the Webservice connection does not check the
-   *         hostname as specified in the certificate of the receiver. For
-   *         ER&gt; using the txm.portal.at service, this should always be
-   *         <code>false</code>. If this is enabled, the security of
-   *         transmission cannot be guaranteed! The default value is
-   *         {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname
-   *         check should always be enabled.
+   * @return <code>true</code> if the Webservice connection does not check the hostname as specified
+   *         in the certificate of the receiver. For ER&gt; using the txm.portal.at service, this
+   *         should always be <code>false</code>. If this is enabled, the security of transmission
+   *         cannot be guaranteed! The default value is {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For
+   *         ER&gt;B the hostname check should always be enabled.
    */
   public final boolean isTrustAllHostnames ()
   {
@@ -183,18 +178,15 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * Change whether the the Webservice connection should check the hostname as
-   * specified in the certificate of the receiver or not. If this is enabled,
-   * the security of transmission cannot be guaranteed! The default value is
-   * {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname check should
-   * always be enabled.<br>
-   * Internally a special
-   * {@link com.helger.commons.ws.HostnameVerifierVerifyAll} is installed.
+   * Change whether the the Webservice connection should check the hostname as specified in the
+   * certificate of the receiver or not. If this is enabled, the security of transmission cannot be
+   * guaranteed! The default value is {@link #DEFAULT_TRUST_ALL_HOSTNAMES}. For ER&gt;B the hostname
+   * check should always be enabled.<br>
+   * Internally a special com.helger.commons.ws.HostnameVerifierVerifyAll is installed.
    *
    * @param bTrustAllHostnames
-   *        <code>true</code> to lower the security level and trust all
-   *        hostnames, or <code>false</code> to enable the certificate hostname
-   *        check.
+   *        <code>true</code> to lower the security level and trust all hostnames, or
+   *        <code>false</code> to enable the certificate hostname check.
    * @return this
    */
   @Nonnull
@@ -205,8 +197,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * @return The namespace context (the mapping from XML prefix to namespace
-   *         URL). May be <code>null</code>.
+   * @return The namespace context (the mapping from XML prefix to namespace URL). May be
+   *         <code>null</code>.
    */
   @Nullable
   public final NamespaceContext getNamespaceContext ()
@@ -215,8 +207,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   }
 
   /**
-   * Set the namespace context to be used. This is only used, if a conversion
-   * from DOMNode to a byte array is performed.
+   * Set the namespace context to be used. This is only used, if a conversion from DOMNode to a byte
+   * array is performed.
    *
    * @param aNSCtx
    *        The namespace context to be used. May be <code>null</code>.
