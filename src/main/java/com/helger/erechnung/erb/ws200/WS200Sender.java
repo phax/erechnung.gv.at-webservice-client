@@ -20,19 +20,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.annotation.OverrideOnDemand;
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.exception.InitializationException;
+import com.helger.annotation.Nonempty;
+import com.helger.annotation.concurrent.NotThreadSafe;
+import com.helger.annotation.style.OverrideOnDemand;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.exception.InitializationException;
+import com.helger.collection.commons.CommonsArrayList;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
 import com.helger.wsclient.WSClientConfig;
@@ -50,6 +47,8 @@ import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliverySettingsType;
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.DeliveryType;
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryPort;
 import at.gv.brz.eproc.erb.ws.invoicedelivery._201306.WSInvoiceDeliveryService;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.WebServiceException;
 

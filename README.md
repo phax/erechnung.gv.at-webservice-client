@@ -14,7 +14,7 @@ Add the following to your pom.xml to use this artifact:
 <dependency>
   <groupId>com.helger.erechnung.gv.at</groupId>
   <artifactId>webservice-client</artifactId>
-  <version>4.0.0</version>
+  <version>5.0.0</version>
 </dependency>
 ```
 
@@ -26,7 +26,12 @@ compilation.
 
 # News and Noteworthy
 
-Version 4.0.0 uses Jakarta JAX-WS 4.0 as the baseline and requires at least Java 11
+v5.0.0 - 2025-08-29
+* Requires Java 17 as the minimum version
+* Updated to ph-commons 12.0.0
+
+v4.0.0
+* uses Jakarta JAX-WS 4.0 as the baseline and requires at least Java 11
 
 
 ---

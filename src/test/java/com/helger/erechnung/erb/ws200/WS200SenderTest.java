@@ -24,9 +24,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Node;
 
-import com.helger.commons.io.resource.ClassPathResource;
-import com.helger.commons.io.stream.StreamHelper;
+import com.helger.base.io.stream.StreamHelper;
 import com.helger.config.ConfigFactory;
+import com.helger.io.resource.ClassPathResource;
 import com.helger.xml.namespace.MapBasedNamespaceContext;
 import com.helger.xml.serialize.read.DOMReader;
 

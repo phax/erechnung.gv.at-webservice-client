@@ -20,18 +20,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.NotThreadSafe;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.annotation.OverrideOnDemand;
-import com.helger.commons.exception.InitializationException;
+import com.helger.annotation.Nonempty;
+import com.helger.annotation.concurrent.NotThreadSafe;
+import com.helger.annotation.style.OverrideOnDemand;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.exception.InitializationException;
 import com.helger.erechnung.erb.ws.AbstractWSSender;
 import com.helger.erechnung.erb.ws.SOAPAddWSSEHeaderHandler;
 import com.helger.wsclient.WSClientConfig;
@@ -49,6 +46,8 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeError;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetail;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetails;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.WebServiceException;
 
