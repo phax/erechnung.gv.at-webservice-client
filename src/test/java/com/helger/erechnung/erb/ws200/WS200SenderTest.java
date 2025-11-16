@@ -46,9 +46,9 @@ public final class WS200SenderTest
   private static final String USP_WS_PASSWORD = ConfigFactory.getDefaultConfig ().getAsString ("ws.password");
 
   /**
-   * Basic test case. It is ignored by default, since no test username and
-   * password are present. After setting the properties in the
-   * "application.properties" file, this test can be "un-ignored".
+   * Basic test case. It is ignored by default, since no test username and password are present.
+   * After setting the properties in the "application.properties" file, this test can be
+   * "un-ignored".
    */
   @Test
   @Ignore
@@ -82,12 +82,12 @@ public final class WS200SenderTest
   }
 
   /**
-   * Basic test case. It is ignored by default, since no test username and
-   * password are present. After setting the properties in the
-   * "application.properties" file, this test can be "un-ignored".
+   * Basic test case. It is ignored by default, since no test username and password are present.
+   * After setting the properties in the "application.properties" file, this test can be
+   * "un-ignored".
    */
   @Test
-  @Ignore
+  // @Ignore
   public void testDeliverInvoiceViaByteArray ()
   {
     final byte [] aXMLBytes = StreamHelper.getAllBytes (new ClassPathResource ("test-invoices/ebi60.xml"));

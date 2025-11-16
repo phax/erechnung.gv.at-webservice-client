@@ -21,14 +21,14 @@ import java.nio.charset.StandardCharsets;
 
 import javax.xml.namespace.NamespaceContext;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.concurrent.NotThreadSafe;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.tostring.ToStringGenerator;
 import com.helger.base.trait.IGenericImplTrait;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Abstract base class for for the e-Rechnung.gv.at Webservice wrapper.
@@ -55,8 +55,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
   private boolean m_bTrustAllHostnames = DEFAULT_TRUST_ALL_HOSTNAMES;
   private NamespaceContext m_aNSCtx;
 
-  public AbstractWSSender (@Nonnull @Nonempty final String sWebserviceUsername,
-                           @Nonnull @Nonempty final String sWebservicePassword)
+  public AbstractWSSender (@NonNull @Nonempty final String sWebserviceUsername,
+                           @NonNull @Nonempty final String sWebservicePassword)
   {
     m_sWebserviceUsername = ValueEnforcer.notEmpty (sWebserviceUsername, "Webservice Username");
     m_sWebservicePassword = ValueEnforcer.notEmpty (sWebservicePassword, "Webservice Password");
@@ -66,7 +66,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * @return The web service user name as specified in the constructor. Neither <code>null</code>
    *         nor empty.
    */
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getWebserviceUsername ()
   {
@@ -77,7 +77,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * @return The web service password as specified in the constructor. Neither <code>null</code> nor
    *         empty.
    */
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getWebservicePassword ()
   {
@@ -88,7 +88,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    * @return The encoding of the XML invoice to be used. The default value is
    *         {@link #DEFAULT_INVOICE_ENCODING}.
    */
-  @Nonnull
+  @NonNull
   public final Charset getInvoiceEncoding ()
   {
     return m_aInvoiceEncoding;
@@ -102,8 +102,8 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    *        The new encoding to be used. May not be <code>null</code>.
    * @return this
    */
-  @Nonnull
-  public final IMPLTYPE setInvoiceEncoding (@Nonnull final Charset aInvoiceEncoding)
+  @NonNull
+  public final IMPLTYPE setInvoiceEncoding (@NonNull final Charset aInvoiceEncoding)
   {
     ValueEnforcer.notNull (aInvoiceEncoding, "InvoiceEncoding");
     m_aInvoiceEncoding = aInvoiceEncoding;
@@ -128,7 +128,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    *        <code>false</code> to disable it.
    * @return this
    */
-  @Nonnull
+  @NonNull
   public final IMPLTYPE setDebugMode (final boolean bDebugMode)
   {
     m_bDebugMode = bDebugMode;
@@ -158,7 +158,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    *        <code>false</code> to enable the certificate check.
    * @return this
    */
-  @Nonnull
+  @NonNull
   public final IMPLTYPE setTrustAllCertificates (final boolean bTrustAllCertificates)
   {
     m_bTrustAllCertificates = bTrustAllCertificates;
@@ -189,7 +189,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    *        <code>false</code> to enable the certificate hostname check.
    * @return this
    */
-  @Nonnull
+  @NonNull
   public final IMPLTYPE setTrustAllHostnames (final boolean bTrustAllHostnames)
   {
     m_bTrustAllHostnames = bTrustAllHostnames;
@@ -214,7 +214,7 @@ public abstract class AbstractWSSender <IMPLTYPE extends AbstractWSSender <IMPLT
    *        The namespace context to be used. May be <code>null</code>.
    * @return this for chaining
    */
-  @Nonnull
+  @NonNull
   public final IMPLTYPE setNamespaceContext (@Nullable final NamespaceContext aNSCtx)
   {
     m_aNSCtx = aNSCtx;

@@ -67,7 +67,7 @@
       <dependency>
         <groupId>com.helger.commons</groupId>
         <artifactId>ph-commons-parent-pom</artifactId>
-        <version>12.0.4</version>
+        <version>12.1.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -200,6 +200,7 @@
             <xjcArg>-no-header</xjcArg>
             <xjcArg>-Xph-default-locale</xjcArg>
             <xjcArg>en_US</xjcArg>
+            <xjcArg>-Xph-package-null-marked</xjcArg>
             <xjcArg>-Xph-annotate</xjcArg>
             <xjcArg>-Xph-fields-private</xjcArg>
             <xjcArg>-Xph-code-quality</xjcArg>
@@ -213,7 +214,7 @@
           <dependency>
             <groupId>com.helger</groupId>
             <artifactId>ph-jaxb-plugin</artifactId>
-            <version>5.0.1</version>
+            <version>5.1.1</version>
           </dependency>
           <dependency>
             <groupId>com.helger</groupId>

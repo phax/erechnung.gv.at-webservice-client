@@ -24,9 +24,9 @@
          DocumentTitle="Testrechnung ph-ebinterface" 
          Language="de">
 	<InvoiceNumber>RNR 4712</InvoiceNumber>
-	<InvoiceDate>2022-01-12</InvoiceDate>
+	<InvoiceDate>2025-01-12</InvoiceDate>
   <Delivery>
-    <Date>2022-02-15</Date>
+    <Date>2025-02-15</Date>
   </Delivery>
 	<Biller>
 		<VATIdentificationNumber>ATU00000006</VATIdentificationNumber>
@@ -104,6 +104,6 @@
 		</UniversalBankTransaction>
 	</PaymentMethod>
 	<PaymentConditions>
-		<DueDate>2022-12-31</DueDate>
+		<DueDate>2025-12-31</DueDate>
 	</PaymentConditions>
 </Invoice>

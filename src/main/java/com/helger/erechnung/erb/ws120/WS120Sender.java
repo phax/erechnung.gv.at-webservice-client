@@ -20,6 +20,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
@@ -46,14 +48,12 @@ import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeError;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetail;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeErrorDetails;
 import at.gv.brz.schema.eproc.invoice_uploadstatus_1_0.TypeUploadStatus;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.WebServiceException;
 
 /**
- * A wrapper for invoking the Webservice 1.2 for e-Rechnung.gv.at. The technical
- * details can be found at
+ * A wrapper for invoking the Webservice 1.2 for e-Rechnung.gv.at. The technical details can be
+ * found at
  *
  * @see "https://www.erb.gv.at/erb?p=info_channel_ws&tab=ws12"
  * @author Philip Helger
@@ -82,27 +82,28 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
 
   private URL m_aURL = ENDPOINT_URL_PRODUCTION;
 
-  public WS120Sender (@Nonnull @Nonempty final String sWebserviceUsername, @Nonnull @Nonempty final String sWebservicePassword)
+  public WS120Sender (@NonNull @Nonempty final String sWebserviceUsername,
+                      @NonNull @Nonempty final String sWebservicePassword)
   {
     super (sWebserviceUsername, sWebservicePassword);
   }
 
-  @Nonnull
+  @NonNull
   public final URL getURL ()
   {
     return m_aURL;
   }
 
-  @Nonnull
-  public final WS120Sender setURL (@Nonnull final URL aURL)
+  @NonNull
+  public final WS120Sender setURL (@NonNull final URL aURL)
   {
     ValueEnforcer.notNull (aURL, "URL");
     m_aURL = aURL;
     return this;
   }
 
-  @Nonnull
-  private static TypeUploadStatus _createError (@Nonnull final String sField, @Nonnull final String sMessage)
+  @NonNull
+  private static TypeUploadStatus _createError (@NonNull final String sField, @NonNull final String sMessage)
   {
     final TypeUploadStatus ret = new TypeUploadStatus ();
     final TypeError aError = new TypeError ();
@@ -123,39 +124,35 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
    *        Client config to be modified. May not be <code>null</code>.
    */
   @OverrideOnDemand
-  protected void modifyWSClientConfig (@Nonnull final WSClientConfig aWSClientConfig)
+  protected void modifyWSClientConfig (@NonNull final WSClientConfig aWSClientConfig)
   {}
 
   /**
-   * This is the main sending routine. It can be invoked multiple times with
-   * different invoices.
+   * This is the main sending routine. It can be invoked multiple times with different invoices.
    *
    * @param aOriginalInvoice
-   *        The original invoice in an XML representation. May not be
-   *        <code>null</code>. It may be in any of the formats supported by
-   *        ER&gt;B (ebInterface 4.x, 5.x or UBL 2.x).
+   *        The original invoice in an XML representation. May not be <code>null</code>. It may be
+   *        in any of the formats supported by ER&gt;B (ebInterface 4.x, 5.x or UBL 2.x).
    * @param aAttachments
-   *        An optional list of attachments to this invoice. If the list is non-
-   *        <code>null</code> it must contain only non-<code>null</code>
-   *        elements.
+   *        An optional list of attachments to this invoice. If the list is non- <code>null</code>
+   *        it must contain only non-<code>null</code> elements.
    * @param aSettings
-   *        The settings element as specified by the ER&gt;B Webservice 1.2.
-   *        Within this settings element e.g. the test-flag can be set. May not
-   *        be <code>null</code>.
-   * @return A non-<code>null</code> upload status as returned by the ER&gt;B
-   *         Webservice. In case of an internal error, a corresponding error
-   *         structure is created.
+   *        The settings element as specified by the ER&gt;B Webservice 1.2. Within this settings
+   *        element e.g. the test-flag can be set. May not be <code>null</code>.
+   * @return A non-<code>null</code> upload status as returned by the ER&gt;B Webservice. In case of
+   *         an internal error, a corresponding error structure is created.
    */
-  @Nonnull
-  public TypeUploadStatus deliverInvoice (@Nonnull final Node aOriginalInvoice,
+  @NonNull
+  public TypeUploadStatus deliverInvoice (@NonNull final Node aOriginalInvoice,
                                           @Nullable final List <AttachmentType> aAttachments,
-                                          @Nonnull final SettingsType aSettings)
+                                          @NonNull final SettingsType aSettings)
   {
     ValueEnforcer.notNull (aOriginalInvoice, "OriginalInvoice");
     ValueEnforcer.notNull (aSettings, "Settings");
 
     // Convert XML node to a byte array
-    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ()).setNamespaceContext (getNamespaceContext ());
+    final XMLWriterSettings aXWS = new XMLWriterSettings ().setCharset (getInvoiceEncoding ())
+                                                           .setNamespaceContext (getNamespaceContext ());
     final byte [] aInvoiceBytes = XMLWriter.getNodeAsBytes (aOriginalInvoice, aXWS);
     if (aInvoiceBytes == null)
     {
@@ -170,29 +167,25 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
   }
 
   /**
-   * This is the main sending routine. It can be invoked multiple times with
-   * different invoices.
+   * This is the main sending routine. It can be invoked multiple times with different invoices.
    *
    * @param aInvoiceBytes
-   *        The byte array representation of the XML invoice to be send. May not
-   *        be <code>null</code>. It may be in any of the formats supported by
-   *        ER&gt;B (ebInterface 4.x, 5.x or UBL 2.x).
+   *        The byte array representation of the XML invoice to be send. May not be
+   *        <code>null</code>. It may be in any of the formats supported by ER&gt;B (ebInterface
+   *        4.x, 5.x or UBL 2.x).
    * @param aAttachments
-   *        An optional list of attachments to this invoice. If the list is non-
-   *        <code>null</code> it must contain only non-<code>null</code>
-   *        elements.
+   *        An optional list of attachments to this invoice. If the list is non- <code>null</code>
+   *        it must contain only non-<code>null</code> elements.
    * @param aSettings
-   *        The settings element as specified by the ER&gt;B Webservice 1.2.
-   *        Within this settings element e.g. the test-flag can be set. May not
-   *        be <code>null</code>.
-   * @return A non-<code>null</code> upload status as returned by the ER&gt;B
-   *         Webservice. In case of an internal error, a corresponding error
-   *         structure is created.
+   *        The settings element as specified by the ER&gt;B Webservice 1.2. Within this settings
+   *        element e.g. the test-flag can be set. May not be <code>null</code>.
+   * @return A non-<code>null</code> upload status as returned by the ER&gt;B Webservice. In case of
+   *         an internal error, a corresponding error structure is created.
    */
-  @Nonnull
-  public TypeUploadStatus deliverInvoice (@Nonnull final byte [] aInvoiceBytes,
+  @NonNull
+  public TypeUploadStatus deliverInvoice (@NonNull final byte [] aInvoiceBytes,
                                           @Nullable final List <AttachmentType> aAttachments,
-                                          @Nonnull final SettingsType aSettings)
+                                          @NonNull final SettingsType aSettings)
   {
     ValueEnforcer.notNull (aInvoiceBytes, "InvoiceBytes");
     ValueEnforcer.notNull (aSettings, "Settings");
@@ -220,7 +213,8 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
         aWSClientConfig.setHostnameVerifierTrustAll ();
 
       // Ensure the WSSE headers are added using our handler
-      aWSClientConfig.handlers ().add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
+      aWSClientConfig.handlers ()
+                     .add (new SOAPAddWSSEHeaderHandler (getWebserviceUsername (), getWebservicePassword ()));
 
       // Customizing callback
       modifyWSClientConfig (aWSClientConfig);
@@ -237,7 +231,8 @@ public class WS120Sender extends AbstractWSSender <WS120Sender>
     catch (final UploadException ex)
     {
       LOGGER.error ("Error uploading the document to ER>B Webservice 1.2!", ex);
-      return _createError ("document", ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
+      return _createError ("document",
+                           ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : ex.getMessage ());
     }
     catch (final WebServiceException ex)
     {

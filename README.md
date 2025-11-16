@@ -26,6 +26,10 @@ compilation.
 
 # News and Noteworthy
 
+v5.0.1 - 2025-11-16
+* Updated to ph-commons 12.1.0
+* Using JSpecify annotations
+
 v5.0.0 - 2025-08-29
 * Requires Java 17 as the minimum version
 * Updated to ph-commons 12.0.0
