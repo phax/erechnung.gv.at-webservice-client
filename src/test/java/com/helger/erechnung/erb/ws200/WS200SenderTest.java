@@ -87,7 +87,7 @@ public final class WS200SenderTest
    * "un-ignored".
    */
   @Test
-  // @Ignore
+  @Ignore
   public void testDeliverInvoiceViaByteArray ()
   {
     final byte [] aXMLBytes = StreamHelper.getAllBytes (new ClassPathResource ("test-invoices/ebi60.xml"));
