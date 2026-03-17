@@ -1,5 +1,10 @@
 # erechnung.gv.at-webservice-client
 
+<!-- ph-badge-start -->
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger.erechnung.gv.at/webservice-client/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger.erechnung.gv.at/webservice-client/)
+[![javadoc](https://javadoc.io/badge2/com.helger.erechnung.gv.at/webservice-client/javadoc.svg)](https://javadoc.io/doc/com.helger.erechnung.gv.at/webservice-client)
+<!-- ph-badge-end -->
+
 Utility classes and projects for the use with ER>B - the national Austrian Invoicing solution.
 This project contains Webservice clients for both Webservice 1.2 and Webservice 2.0 and the JAXB
 generated classes for the Webservice callback.
