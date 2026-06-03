@@ -3,6 +3,8 @@
 <!-- ph-badge-start -->
 [![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger.erechnung.gv.at/webservice-client/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger.erechnung.gv.at/webservice-client/)
 [![javadoc](https://javadoc.io/badge2/com.helger.erechnung.gv.at/webservice-client/javadoc.svg)](https://javadoc.io/doc/com.helger.erechnung.gv.at/webservice-client)
+
+> If this project saved you some time or made your day a little easier, a star would mean a lot — it helps others find it too.
 <!-- ph-badge-end -->
 
 Utility classes and projects for the use with ER>B - the national Austrian Invoicing solution.
