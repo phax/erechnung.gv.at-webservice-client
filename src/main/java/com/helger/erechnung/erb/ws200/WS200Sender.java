@@ -254,8 +254,8 @@ public class WS200Sender extends AbstractWSSender <WS200Sender>
     {
       LOGGER.error ("Error uploading the document to ER>B Webservice 2.0!", ex);
       return _createError ("document",
-                           ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage () : new CommonsArrayList <> (ex
-                                                                                                                      .getMessage ()));
+                           ex.getFaultInfo () != null ? ex.getFaultInfo ().getMessage ()
+                                                      : new CommonsArrayList <> (ex.getMessage ()));
     }
     catch (final WebServiceException ex)
     {
